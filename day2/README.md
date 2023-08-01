@@ -168,4 +168,75 @@ ashpython      v1        6714cda7f47d   30 seconds ago   1.01GB
 python         latest    608c79ebc6d5   6 weeks ago      1.01GB
 ```
 
+### creating container from images to run python code
+
+```
+[ashu@ip-172-31-91-107 ~]$ docker  run  --name  ashuc1  -it -d   ashupython:v1  
+41cc2f0a72dda9540ad3439a25db4fe5f79fb6d9126e5c4b0ca7974c1416c9d0
+[ashu@ip-172-31-91-107 ~]$ docker  ps
+CONTAINER ID   IMAGE           COMMAND                  CREATED         STATUS         PORTS     NAMES
+41cc2f0a72dd   ashupython:v1   "python /ashucode/he…"   3 seconds ago   Up 3 seconds             ashuc1
+[ashu@ip-172-31-91-107 ~]$ 
+```
+
+### understanding container creation from docker image
+
+<img src="cc.png">
+
+### checking output of python code running inside container 
+
+```
+ [ashu@ip-172-31-91-107 ~]$ docker logs  ashuc1 
+Hello all , welcome to python..!!
+Welcome to Docker ..
+Welcome to Containers ..!!
+______________________
+Hello all , welcome to python..!
+```
+
+### to check output live 
+
+```
+docker logs  -f ashuc1 
+```
+
+### checking resource consumption by container 
+
+```
+[ashu@ip-172-31-91-107 ~]$ docker  stats  ashuc1
+CONTAINER ID   NAME      CPU %     MEM USAGE / LIMIT     MEM %     NET I/O       BLOCK I/O   PIDS
+41cc2f0a72dd   ashuc1    0.01%     3.777MiB / 7.748GiB   0.05%     1.14kB / 0B   0B / 0B     1
+
+
+```
+
+### life of container 
+
+<img src="life.png">
+
+### stopping running container manually 
+
+```
+ashu@ip-172-31-91-107 ~]$ docker  stop  ashuc1 
+ashuc1
+[ashu@ip-172-31-91-107 ~]$ docker  ps
+CONTAINER ID   IMAGE                COMMAND                  CREATED          STATUS          PORTS     NAMES
+bb996854c0e2   ashpython:v2         "python /ashcode/hel…"   16 minutes ago   Up 16 minutes             ashwi2
+838a1261808e   nagashreepython:v1   "python nagashreecod…"   21 minutes ago   Up 21 minutes             nagashree1
+951d8e29742a   nidhipython:v1       "python nidhicode/he…"   22 minutes ago   Up 22 minutes             nidhi1
+d96bf045c7db   rakpython:v1         "python rakshithacod…"   22 minutes ago   Up 22 minutes             rakctl
+ee117e45e1a0   yashnapython:v1      "python /yashnacode/…"   23 minutes ago   Up 23 minutes             yashna1
+[ashu@ip-172-31-91-107 ~]$ 
+
+
+```
+
+### removing -- stopped container 
+
+```
+[ashu@ip-172-31-91-107 ~]$ docker  rm ashuc1 
+ashuc1
+[ashu@ip-17
+```
+
 
