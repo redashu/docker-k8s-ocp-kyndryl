@@ -239,4 +239,44 @@ ashuc1
 [ashu@ip-17
 ```
 
+### choosing any specific python version to build code 
+
+Dockerfile 
+```
+
+FROM python:3.8
+LABEL name="ashutoshh"
+LABEL email="ashutoshh@linux.com"
+RUN mkdir /ashucode
+COPY  hello.py /ashucode/hello.py 
+CMD ["python","/ashucode/hello.py"]
+
+ 
+```
+
+### building again 
+
+```
+ashu@ip-172-31-91-107 ~]$ ls
+database  java-code  python-code  webapp
+[ashu@ip-172-31-91-107 ~]$ cd python-code/
+[ashu@ip-172-31-91-107 python-code]$ ls
+Dockerfile  hello.py  python38.dockerfile
+[ashu@ip-172-31-91-107 python-code]$ docker build -t ashupython:v38 -f  python38.dockerfile   . 
+Sending build context to Docker daemon  4.096kB
+Step 1/6 : FROM python:3.8
+3.8: Pulling from library/python
+785ef8b9b236: Already exists 
+5a6dad8f55ae: Already exists 
+```
+
+### verify image
+
+```
+[ashu@ip-172-31-91-107 python-code]$ docker images
+REPOSITORY        TAG       IMAGE ID       CREATED              SIZE
+ashupython        v38       48d02515ece5   About a minute ago   997MB
+ashpython         v2        982a77b3465a   55 minutes ago       1.01GB
+ashwinipython     v1        982a77b3465a   55 minutes ago       1.01GB
+```
 
