@@ -426,7 +426,7 @@ ONTAINER ID   NAME          CPU %     MEM USAGE / LIMIT     MEM %     NET I/O   
 ### dockerfile
 
 ```
-FROM centos
+FROM oraclelinux:8.4 
 LABEL name="ashutoshh"
 RUN yum install httpd -y 
 COPY index.html /var/www/html/
