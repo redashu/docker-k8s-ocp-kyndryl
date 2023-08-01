@@ -368,3 +368,37 @@ latest: Pulling from library/openjdk
 ashujava          v1        cb69966deff9   35 seconds ago   470MB
 ```
 
+### creating and verify container 
+
+```
+[ashu@ip-172-31-91-107 java-code]$ docker images  | grep java
+yashnajava        v1        dfe2feffb6f1   23 seconds ago       470MB
+nidhijava         v1        247e8fc593a0   About a minute ago   470MB
+raksithajava      v1        5f0c7408fa6e   3 minutes ago        470MB
+nagashreejava     v1        e0344decb41a   4 minutes ago        470MB
+ashwinijava       v1        e3c652ce89e5   7 minutes ago        470MB
+ashujava          v1        cb69966deff9   8 minutes ago        470MB
+
+
+[ashu@ip-172-31-91-107 java-code]$ 
+[ashu@ip-172-31-91-107 java-code]$ docker run -itd --name ashujavac1   ashujava:v1  
+591c1fbc35fa96619ec8cd68898ca6730613de4b77d18c0cb3bc409d51688ac4
+
+[ashu@ip-172-31-91-107 java-code]$ docker  ps
+CONTAINER ID   IMAGE                 COMMAND                  CREATED          STATUS          PORTS     NAMES
+591c1fbc35fa   ashujava:v1           "java hello"             3 seconds ago    Up 2 seconds              ashujavac1
+
+====>>
+[ashu@ip-172-31-91-107 java-code]$ docker logs  ashujavac1
+Hello World
+Hello World
+Hello World
+Hello World
+
+====> Resource COnsumption
+docker stats 
+ONTAINER ID   NAME          CPU %     MEM USAGE / LIMIT     MEM %     NET I/O       BLOCK I/O   PIDS
+76b514d30a31   nidhic1       0.10%     9.238MiB / 7.748GiB   0.12%     570B / 0B     0B / 0B     19
+591c1fbc35fa   ashujavac1    0.10%     9.234MiB / 7.748GiB   0.12%     710B / 0B     0B / 0B     19
+50faebe462af   rakshitha11   0.00%     4.715MiB / 7.748GiB   0.06%     990B / 0B     0B / 0B     1
+```
