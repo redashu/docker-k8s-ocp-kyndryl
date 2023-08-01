@@ -280,3 +280,21 @@ ashpython         v2        982a77b3465a   55 minutes ago       1.01GB
 ashwinipython     v1        982a77b3465a   55 minutes ago       1.01GB
 ```
 
+### creating container 
+
+```
+[ashu@ip-172-31-91-107 python-code]$ docker run -itd --name ashucc11 ashupython:v38 
+8c483dcfb279690e33ac59a9ef7f720af7775c4f25f7a42b40aecf11c5e63b9b
+
+[ashu@ip-172-31-91-107 python-code]$ docker ps
+CONTAINER ID   IMAGE            COMMAND                  CREATED         STATUS        PORTS     NAMES
+8c483dcfb279   ashupython:v38   "python /ashucode/he…"   2 seconds ago   Up 1 second             ashucc11
+
+[ashu@ip-172-31-91-107 python-code]$ docker logs -f ashucc11
+Hello all , welcome to python..!!
+Welcome to Docker ..
+Welcome to Containers ..!!
+______________________
+Hello all , welcome to python..!!
+Welcome to Docker ..
+```
