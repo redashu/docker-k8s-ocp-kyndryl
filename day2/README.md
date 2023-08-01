@@ -298,3 +298,73 @@ ______________________
 Hello all , welcome to python..!!
 Welcome to Docker ..
 ```
+
+### python code --> image-- containers
+
+<img src="pyd.png">
+
+## Java code 
+
+### hello.java
+
+```
+class hello { 
+    public static void main(String args[]) 
+    { 
+        // test expression 
+        while (true) { 
+            System.out.println("Hello World"); 
+            try {
+                Thread.sleep(2000);
+            } catch (Exception ex) {
+                // Ignored
+            }
+  
+            // update expression 
+        } 
+    } 
+} 
+```
+
+### Dockerfile
+
+```
+FROM openjdk
+LABEL name="ashutoshh"
+RUN mkdir  /mycode
+COPY hello.java /mycode/hello.java
+WORKDIR /mycode
+# is to change directory during image build time
+RUN javac hello.java 
+CMD ["java","hello"]
+# this will be automatically run hello class wheneve we create contianer
+
+
+```
+
+### building java image
+
+```
+[ashu@ip-172-31-91-107 python-code]$ cd ..
+[ashu@ip-172-31-91-107 ~]$ ls
+
+database  java-code  python-code  webapp
+
+[ashu@ip-172-31-91-107 ~]$ cd  java-code/
+
+[ashu@ip-172-31-91-107 java-code]$ ls
+Dockerfile  hello.java
+
+[ashu@ip-172-31-91-107 java-code]$ docker build -t ashujava:v1 .  
+Sending build context to Docker daemon  3.072kB
+Step 1/7 : FROM openjdk
+latest: Pulling from library/openjdk
+```
+
+### verify image
+
+```
+[ashu@ip-172-31-91-107 java-code]$ docker images  | grep ashu
+ashujava          v1        cb69966deff9   35 seconds ago   470MB
+```
+
