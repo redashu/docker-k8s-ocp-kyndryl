@@ -402,3 +402,53 @@ ONTAINER ID   NAME          CPU %     MEM USAGE / LIMIT     MEM %     NET I/O   
 591c1fbc35fa   ashujavac1    0.10%     9.234MiB / 7.748GiB   0.12%     710B / 0B     0B / 0B     19
 50faebe462af   rakshitha11   0.00%     4.715MiB / 7.748GiB   0.06%     990B / 0B     0B / 0B     1
 ```
+
+### html website code to docker container 
+
+## take index.html code 
+
+```
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ashutoshh</title>
+</head>
+<body>
+    <h1> Hello Web application </h1>
+    <h2> I am Ashutoshh Singh </h2>
+    
+</body>
+</html>
+```
+
+### dockerfile
+
+```
+FROM centos
+LABEL name="ashutoshh"
+RUN yum install httpd -y 
+COPY index.html /var/www/html/
+CMD ["httpd","-DFOREGROUND"]
+```
+
+### build it
+
+```
+[ashu@ip-172-31-91-107 java-code]$ ls
+Dockerfile  hello.java
+[ashu@ip-172-31-91-107 java-code]$ cd ..
+[ashu@ip-172-31-91-107 ~]$ ls
+database  java-code  python-code  webapp
+[ashu@ip-172-31-91-107 ~]$ cd  webapp/
+[ashu@ip-172-31-91-107 webapp]$ ls
+Dockerfile  index.html
+[ashu@ip-172-31-91-107 webapp]$ docker build -t  ashuhttpd:v1  . 
+Sending build context to Docker daemon  3.072kB
+Step 1/5 : FROM centos
+latest: Pulling from library/centos
+a1d0c7532777: Extracting [===============================================>   ]  79.66MB/83.52MB
+
+
+```
