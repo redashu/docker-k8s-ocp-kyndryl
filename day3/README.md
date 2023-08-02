@@ -280,6 +280,42 @@ ashu-webapp        v1        4d7a9b6ce0fe   58 minutes ago   484MB
 Docker Compose version v2.20.2
 ```
 
+## docker Compose examples
+
+### Example 1 -- SIngle container app 
+
+```
+version: '3.8'
+services:
+  ashu-app1: # name of my web app
+    image: ashu-webapp:v1
+    container_name: ashuwebc1
+    ports:
+      - 1234:80
+
+```
+
+### running compose file -- using up 
+
+```
+[ashu@ip-172-31-91-107 ~]$ cd  ashu-compose/
+[ashu@ip-172-31-91-107 ashu-compose]$ ls
+docker-compose.yaml
+[ashu@ip-172-31-91-107 ashu-compose]$ docker-compose up -d 
+[+] Running 2/2
+ ✔ Network ashu-compose_default  Created                                                                                    0.0s 
+ ✔ Container ashuwebc1           Started
+                                                                              0.6s 
+[ashu@ip-172-31-91-107 ashu-compose]$ docker-compose ps
+NAME                IMAGE               COMMAND                SERVICE             CREATED             STATUS              PORTS
+ashuwebc1           ashu-webapp:v1      "httpd -DFOREGROUND"   ashu-app1           10 seconds ago      Up 9 seconds        0.0.0.0:1234->80/tcp, :::1234->80/tcp
+
+[ashu@ip-172-31-91-107 ashu-compose]$ docker-compose images
+CONTAINER           REPOSITORY          TAG                 IMAGE ID            SIZE
+ashuwebc1           ashu-webapp         v1                  4d7a9b6ce0fe        484MB
+[ashu@ip-172-31-91-107 ashu-compose]$
+
+```
 
 
 
