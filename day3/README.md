@@ -219,5 +219,21 @@ ec825402626e   none      null      local
             }
 ```
 
+### to accesss container app from outside we are implementing port forwarding in container 
+
+<img src="portf.png">
+
+### creating container with port forwarding 
+
+```
+[ashu@ip-172-31-91-107 ashu-website]$ docker run -itd --name ashuwebc2  -p  1234:80  ashu-webapp:v1  
+1eaca7be1272ddb2a4a1b010a433da9b3e6ae32dd6c871768028be289f94b39c
+[ashu@ip-172-31-91-107 ashu-website]$ docker  ps
+CONTAINER ID   IMAGE            COMMAND                CREATED         STATUS         PORTS                                   NAMES
+1eaca7be1272   ashu-webapp:v1   "httpd -DFOREGROUND"   4 seconds ago   Up 2 seconds   0.0.0.0:1234->80/tcp, :::1234->80/tcp   ashuwebc2
+[ashu@ip-172-31-91-107 ashu-website]$ 
+```
+
+
 
 
