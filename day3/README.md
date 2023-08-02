@@ -64,4 +64,34 @@ index.txt
 README.md
 ```
 
+### building image of webbapp
+
+```
+ashu@ip-172-31-91-107 ~]$ ls
+ashu-website  database  java-code  python-code  webapp
+[ashu@ip-172-31-91-107 ~]$ cd  ashu-website/
+
+[ashu@ip-172-31-91-107 ashu-website]$ ls
+assets  Dockerfile  index.html  index.txt  README.md  website-demo-image
+[ashu@ip-172-31-91-107 ashu-website]$
+
+[ashu@ip-172-31-91-107 ashu-website]$ docker build -t  ashu-webapp:v1  .  
+Sending build context to Docker daemon  1.305MB
+Step 1/5 : FROM oraclelinux:8.4
+ ---> 97e22ab49eea
+Step 2/5 : LABEL name="ashutoshh"
+ ---> Using cache
+ ---> 598954f9b1d6
+Step 3/5 : RUN yum install httpd -y
+ ---> Using cache
+ ---> 0435b09f5083
+Step 4/5 : COPY .  /var/www/html/
+ ---> 293fd1e6ab0a
+Step 5/5 : CMD ["httpd","-DFOREGROUND"]
+ ---> Running in 22363b994bac
+Removing intermediate container 22363b994bac
+ ---> 4d7a9b6ce0fe
+Successfully built 4d7a9b6ce0fe
+Successfully tagged ashu-webapp:v1
+```
 
