@@ -22,3 +22,46 @@ ashupython        v1        942f59fc5524   23 hours ago    1.01GB
 
 ```
 
+### containerizing sample frontend based webapp 
+
+```
+[ashu@ip-172-31-91-107 ~]$ ls
+database  java-code  python-code  webapp
+[ashu@ip-172-31-91-107 ~]$ git clone  https://github.com/codingstella/vCard-personal-portfolio.git
+Cloning into 'vCard-personal-portfolio'...
+remote: Enumerating objects: 69, done.
+remote: Counting objects: 100% (16/16), done.
+remote: Compressing objects: 100% (15/15), done.
+remote: Total 69 (delta 3), reused 8 (delta 0), pack-reused 53
+Receiving objects: 100% (69/69), 1.14 MiB | 26.60 MiB/s, done.
+Resolving deltas: 100% (4/4), done.
+[ashu@ip-172-31-91-107 ~]$ ls
+database  java-code  python-code  vCard-personal-portfolio  webapp
+[ashu@ip-172-31-91-107 ~]$ 
+
+
+```
+
+### adding Dockerifle and .dockerignore to the source code
+
+### Dockerfile
+```
+FROM oraclelinux:8.4 
+LABEL name="ashutoshh"
+RUN yum install httpd -y 
+COPY .  /var/www/html/
+# . means all the files from current location to /var/www/html
+CMD ["httpd","-DFOREGROUND"]
+```
+
+### .dockerignore
+
+```
+Dockerfile
+.dockerignore
+.git
+index.txt
+README.md
+```
+
+
