@@ -356,6 +356,55 @@ ashu@ip-172-31-91-107 ashu-compose]$ docker-compose  down
  ✔ Network ashu-compose_default  Removed               
 ```
 
+### Example 2 
+
+```
+version:  '3.8'
+services:
+  ashu-app1:
+    image: ashuhttpd:v1 
+    container_name: ashuc1
+    ports:
+    - 1234:80 
+  ashu-app2:
+    image: ashupython:v38 
+    container_name: ashuc2 
+    tty: true # like docker run -it 
+```
+
+### lets run it
+
+```
+[ashu@ip-172-31-91-107 ashu-compose]$ ls
+docker-compose.yaml  example2.yaml
+
+[ashu@ip-172-31-91-107 ashu-compose]$ docker-compose -f  example2.yaml  up -d 
+[+] Running 3/3
+ ✔ Network ashu-compose_default  Created                                                                                    0.0s 
+ ✔ Container ashuc1              Started                                                                                    0.9s 
+ ✔ Container ashuc2              Started
+                                                                               0.8s 
+[ashu@ip-172-31-91-107 ashu-compose]$ docker-compose -f  example2.yaml  ps
+NAME                IMAGE               COMMAND                  SERVICE             CREATED             STATUS              PORTS
+ashuc1              ashuhttpd:v1        "httpd -DFOREGROUND"     ashu-app1           13 seconds ago      Up 11 seconds       0.0.0.0:1234->80/tcp, :::1234->80/tcp
+
+ashuc2              ashupython:v38      "python /ashucode/he…"   ashu-app2           13 seconds ago      Up 11 seconds       
+[ashu@ip-172-31-91-107 ashu-compose]$ 
+
+```
+### checking logs 
+
+```
+[ashu@ip-172-31-91-107 ashu-compose]$ docker-compose -f  example2.yaml  logs  ashu-app2 
+ashuc2  | Hello all , welcome to python..!!
+ashuc2  | Welcome to Docker ..
+ashuc2  | Welcome to Containers ..!!
+ashuc2  | ______________________
+ashuc2  | Hello all , welcome to python..!!
+ashuc2  | Welcome to Docker ..
+ashuc2  | Welcome to Containers ..!!
+```
+
 
 
 
