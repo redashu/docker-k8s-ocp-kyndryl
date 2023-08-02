@@ -317,5 +317,45 @@ ashuwebc1           ashu-webapp         v1                  4d7a9b6ce0fe        
 
 ```
 
+### more compose operations
+
+```
+ashu@ip-172-31-91-107 ashu-compose]$ docker-compose ps
+NAME                IMAGE               COMMAND                SERVICE             CREATED             STATUS              PORTS
+ashuwebc1           ashu-webapp:v1      "httpd -DFOREGROUND"   ashu-app1           6 minutes ago       Up 6 minutes        0.0.0.0:1234->80/tcp, :::1234->80/tcp
+
+[ashu@ip-172-31-91-107 ashu-compose]$ docker-compose stop 
+[+] Stopping 1/1
+ ✔ Container ashuwebc1  Stopped                                                                                                                     0.2s
+
+[ashu@ip-172-31-91-107 ashu-compose]$ docker-compose ps
+NAME                IMAGE               COMMAND             SERVICE             CREATED             STATUS              PORTS
+
+
+[ashu@ip-172-31-91-107 ashu-compose]$ docker-compose ps -a
+NAME                IMAGE               COMMAND                SERVICE             CREATED             STATUS                     PORTS
+ashuwebc1           ashu-webapp:v1      "httpd -DFOREGROUND"   ashu-app1           7 minutes ago       Exited (0) 9 seconds ago
+
+
+[ashu@ip-172-31-91-107 ashu-compose]$ docker-compose start
+[+] Running 1/1
+ ✔ Container ashuwebc1  Started                                                                                                                     0.6s
+
+
+[ashu@ip-172-31-91-107 ashu-compose]$ docker-compose ps 
+NAME                IMAGE               COMMAND                SERVICE             CREATED             STATUS              PORTS
+ashuwebc1           ashu-webapp:v1      "httpd -DFOREGROUND"   ashu-app1           7 minutes ago       Up 4 seconds        0.0.0.0:1234->80/tcp, :::1234->80/tcp
+```
+
+### deleting all things created by compose 
+
+```
+ashu@ip-172-31-91-107 ashu-compose]$ docker-compose  down 
+[+] Running 2/2
+ ✔ Container ashuwebc1           Removed                                                                                                            0.2s 
+ ✔ Network ashu-compose_default  Removed               
+```
+
+
 
 
