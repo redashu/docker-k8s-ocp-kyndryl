@@ -95,3 +95,129 @@ Successfully built 4d7a9b6ce0fe
 Successfully tagged ashu-webapp:v1
 ```
 
+### time to create container 
+
+```
+[ashu@ip-172-31-91-107 ashu-website]$ docker run -itd --name ashuwebc1  ashu-webapp:v1 
+38519d7fcabfbfc7813cd6fe57833113c9e29fc8649a46c5b13d6335381ae650
+
+[ashu@ip-172-31-91-107 ashu-website]$ docker ps
+CONTAINER ID   IMAGE            COMMAND                CREATED         STATUS         PORTS     NAMES
+38519d7fcabf   ashu-webapp:v1   "httpd -DFOREGROUND"   7 seconds ago   Up 6 seconds             ashuwebc1
+```
+### to access web app running in contaienr we have to understand networking 
+
+### case 1
+
+<img src="net1.png">
+
+#### Docker network list
+
+```
+ashu@ip-172-31-91-107 ashu-website]$ docker  network   ls
+NETWORK ID     NAME      DRIVER    SCOPE
+a77f7cab68b6   bridge    bridge    local
+0b8774dae4d0   host      host      local
+ec825402626e   none      null      local
+[ashu@ip-172-31-91-107 ashu-website]$ 
+```
+
+### checking default ip address of container 
+
+```
+ 140  docker  inspect  ashuwebc1 
+  141  history 
+[ashu@ip-172-31-91-107 ashu-website]$ docker  inspect  ashuwebc1   | grep -i ipaddr
+            "SecondaryIPAddresses": null,
+            "IPAddress": "172.17.0.2",
+                    "IPAddress": "172.17.0.2",
+```
+
+### checking bridge stastus
+
+```
+[ashu@ip-172-31-91-107 ashu-website]$ docker network ls
+NETWORK ID     NAME      DRIVER    SCOPE
+a77f7cab68b6   bridge    bridge    local
+0b8774dae4d0   host      host      local
+ec825402626e   none      null      local
+[ashu@ip-172-31-91-107 ashu-website]$ docker network  inspect  bridge  
+[
+    {
+        "Name": "bridge",
+        "Id": "a77f7cab68b6d6d48ce89ca4da4f4ec7e36e2de1c1dab8d4bf2952f4923281f3",
+        "Created": "2023-08-02T07:23:48.086342207Z",
+        "Scope": "local",
+        "Driver": "bridge",
+        "EnableIPv6": false,
+        "IPAM": {
+            "Driver": "default",
+            "Options": null,
+            "Config": [
+                {
+                    "Subnet": "172.17.0.0/16",
+                    "Gateway": "172.17.0.1"
+                }
+            ]
+        },
+        "Internal": false,
+        "Attachable": false,
+        "Ingress": false,
+        "ConfigFrom": {
+            "Network": ""
+        },
+        "ConfigOnly": false,
+        "Containers": {
+            "38519d7fcabfbfc7813cd6fe57833113c9e29fc8649a46c5b13d6335381ae650": {
+                "Name": "ashuwebc1",
+                "EndpointID": "9fe041b2845bfd9084aab0a648f9badfc24688c9d279d46036769a4143cbbfb1",
+                "MacAddress": "02:42:ac:11:00:02",
+                "IPv4Address": "172.17.0.2/16",
+                "IPv6Address": ""
+            },
+            "448a3f76fc9eea7f791fba2e51046246fc763a0e18f565b7a9db52fed7a2ccf9": {
+                "Name": "yashnaweb1",
+                "EndpointID": "0c1c5d0ae5375ba571afd98e26b1e995af46be8912558f11418dc72f0a5293f1",
+                "MacAddress": "02:42:ac:11:00:04",
+                "IPv4Address": "172.17.0.4/16",
+                "IPv6Address": ""
+            },
+            "4cec429502e75d4c1b19177124fba8f32f9e2eaa9970925f575406bbae8dcbe1": {
+                "Name": "yashna1",
+                "EndpointID": "0bbc9f2de496873b41b9eb29f10f8cad6cf0bf18ac0615e88c14295f5b696e44",
+                "MacAddress": "02:42:ac:11:00:03",
+                "IPv4Address": "172.17.0.3/16",
+                "IPv6Address": ""
+            },
+            "50b84d1c3e288a03a6f206c0b85ca375b12ce3660d7ded510ccf98b4da530349": {
+                "Name": "nidhiwebc1",
+                "EndpointID": "3a459ccd1d7b834330755e80063d4183b5cfcb361182468062ac446115fcebf6",
+                "MacAddress": "02:42:ac:11:00:06",
+                "IPv4Address": "172.17.0.6/16",
+                "IPv6Address": ""
+            },
+            "619189c50207107c614d7f3f8782e2daee8224faee0471ea9a47530596d8264d": {
+                "Name": "ashwiniwebc1",
+                "EndpointID": "afda258eb45c0bb7ac07edfc1e7db10b4b0e950253df30826a2d4acd080d7248",
+                "MacAddress": "02:42:ac:11:00:08",
+                "IPv4Address": "172.17.0.8/16",
+                "IPv6Address": ""
+            },
+            "9a349d9f71c0f3910be85012dfc4c50ff7b7403a47202af8c90f77932d692735": {
+                "Name": "rakshithawebc1",
+                "EndpointID": "9c013ca30757addfc88e26ddde7bdddbfc4f2c35483d3154c22eef82a76cd533",
+                "MacAddress": "02:42:ac:11:00:07",
+                "IPv4Address": "172.17.0.7/16",
+                "IPv6Address": ""
+            },
+            "cf666365716e39d9b81a79c4cefd388d6c85388ff82c99fe158254e2f13bff40": {
+                "Name": "nagashreewebc1",
+                "EndpointID": "f2d6ac586bb03a792e5efe1c3067ea040eec510c11b07e86fb6c5c94eecb7d78",
+                "MacAddress": "02:42:ac:11:00:05",
+                "IPv4Address": "172.17.0.5/16",
+                "IPv6Address": ""
+            }
+```
+
+
+
