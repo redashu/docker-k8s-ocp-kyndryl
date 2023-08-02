@@ -234,6 +234,52 @@ CONTAINER ID   IMAGE            COMMAND                CREATED         STATUS   
 [ashu@ip-172-31-91-107 ashu-website]$ 
 ```
 
+### Solution of question 
+
+```
+[ashu@ip-172-31-91-107 ashu-website]$ docker  run -itd --name ashucimg   oraclelinux:8.4  
+b0d8023b009482a57ff33178408af50b148cb351f7e1f04e02f890e3eccc8241
+
+[ashu@ip-172-31-91-107 ashu-website]$ docker  ps
+CONTAINER ID   IMAGE                 COMMAND                CREATED         STATUS         PORTS     NAMES
+b0d8023b0094   oraclelinux:8.4       "/bin/bash"            6 seconds ago   Up 5 seconds             ashucimg
+bf2b495fa47a   yashna-webapp:v1      "httpd -DFOREGROUND"   7 minutes ago   Up 7 minutes             yashnawebc3
+c08a9aac2484   nagashree-webapp:v1   "httpd -DFOREGROUND"   8 minutes ago   Up 7 minutes             nagshreewebc3
+c6068b2947c9   nidhi-webapp:v1       "httpd -DFOREGROUND"   8 minutes ago   Up 7 minutes             nidhiwebc3
+abde11c0d903   ashwini-webapp:v1     "httpd -DFOREGROUND"   8 minutes ago   Up 8 minutes             ashwiniwebc3
+705e3d9017ff   rakshitha-web:v1      "httpd -DFOREGROUND"   9 minutes ago   Up 9 minutes             rakshithawebc3
+[ashu@ip-172-31-91-107 ashu-website]$
+
+[ashu@ip-172-31-91-107 ashu-website]$ docker  exec  -it  ashucimg  bash 
+[root@b0d8023b0094 /]# 
+[root@b0d8023b0094 /]# yum install httpd vim  -y 
+Oracle Linux 8 BaseOS Latest (x86_64)                                                                                     95 MB/s |  60 MB     00:00    
+Oracle Linux 8 Application Stream (x86_64)
+
+
+```
+
+### exit from container and creating docker image 
+
+```
+[ashu@ip-172-31-91-107 ashu-website]$ docker  commit  ashucimg    ashucimg:v007 
+sha256:4f0f1d72d9f229a2e25f1c188cac203f7b0a734c683470c45a59538dfb8d9afa
+[ashu@ip-172-31-91-107 ashu-website]$ docker images  | grep ashu
+ashucimg           v007      4f0f1d72d9f2   6 seconds ago    543MB
+ashu-webapp        v1        4d7a9b6ce0fe   58 minutes ago   484MB
+```
+
+### Introducing docker-compose for scripting of the docker steps 
+
+<img src="steps.png">
+
+### checking docker-compose status
+
+```
+[ashu@ip-172-31-91-107 ashu-website]$ docker-compose version 
+Docker Compose version v2.20.2
+```
+
 
 
 
