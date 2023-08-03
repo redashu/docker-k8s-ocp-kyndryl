@@ -279,3 +279,66 @@ services:
     tty: true 
 ```
 
+### introducing docker registry server for image sharing 
+
+<img src="share.png">
+
+### pulling image the public one 
+
+```
+[ashu@ip-172-31-91-107 ashu-task4]$ docker  pull busybox 
+Using default tag: latest
+latest: Pulling from library/busybox
+3f4d90098f5b: Pull complete 
+Digest: sha256:3fbc632167424a6d997e74f52b878d7cc478225cffac6bc977eedfe51c7f4e79
+Status: Downloaded newer image for busybox:latest
+docker.io/library/busybox:latest
+[ashu@ip-172-31-91-107 ashu-task4]$ docker images  | grep busybox
+busybox              latest    a416a98b71e2   2 weeks ago         4.26MB
+[ashu@ip-172-31-91-107 ashu-task4]$ 
+```
+
+## Understanding docker image name format
+
+<img src="real.png">
+
+### pushing image to docker hub steps
+
+```
+[ashu@ip-172-31-91-107 ashu-task4]$ docker  images   | grep ashu
+ashujava-code        v4444     5a36b51358da   45 minutes ago      470MB
+ashupython           v1111     d2553ffd09d6   46 minutes ago      997MB
+ashu-customer        imgv1     b612c02163c5   2 hours ago         498MB
+ashucimg             v007      4f0f1d72d9f2   25 hours ago        543MB
+ashu-webapp          v1        4d7a9b6ce0fe   26 hours ago        484MB
+ashuhttpd            v1        01a983cf482a   47 hours ago        483MB
+ashujava             v1        cb69966deff9   2 days ago          470MB
+ashupython           v38       48d02515ece5   2 days ago          997MB
+ashupython           v1        942f59fc5524   2 days ago          1.01GB
+[ashu@ip-172-31-91-107 ashu-task4]$
+=====>>>
+
+[ashu@ip-172-31-91-107 ashu-task4]$ docker   tag   ashu-customer:imgv1   docker.io/dockerashu/ashu-customer1:releasev1 
+[ashu@ip-172-31-91-107 ashu-task4]$
+
+=========>>>
+[ashu@ip-172-31-91-107 ashu-task4]$ docker  login 
+Login with your Docker ID to push and pull images from Docker Hub. If you don't have a Docker ID, head over to https://hub.docker.com to create one.
+Username: dockerashu
+Password: 
+WARNING! Your password will be stored unencrypted in /home/ashu/.docker/config.json.
+Configure a credential helper to remove this warning. See
+https://docs.docker.com/engine/reference/commandline/login/#credentials-store
+
+Login Succeeded
+[ashu@ip-172-31-91-107 ashu-tas
+
+=============>
+ashu@ip-172-31-91-107 ashu-task4]$ docker  push   docker.io/dockerashu/ashu-customer1:releasev1 
+The push refers to repository [docker.io/dockerashu/ashu-customer1]
+69d95d87edba: Pushed 
+5f70bf18a086: Mounted from library/docker 
+3a084a71fe20: Pushed 
+eab474accd29: Pushed 
+aec59320d9cd: Pushed 
+```
