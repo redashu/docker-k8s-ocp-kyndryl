@@ -46,15 +46,15 @@ CMD ["./deploy.sh"]
 
 if  [ "$web" == "myapp1" ]
 then
-    cp -rf /code/webapp1/ /var/www/html/
+    cp -rf /code/webapp1/*  /var/www/html/
     httpd -DFOREGROUND 
 elif [ "$web" == "myapp2" ]
 then
-    cp -rf /code/webapp2/ /var/www/html/
+    cp -rf /code/webapp2/* /var/www/html/
     httpd -DFOREGROUND 
 elif [ "$web" == "myapp3" ]
 then
-    cp -rf /code/webapp3/ /var/www/html/
+    cp -rf /code/webapp3/* /var/www/html/
     httpd -DFOREGROUND
 else 
     echo "Please check your variable or Value" >/var/www/html/index.html
