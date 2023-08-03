@@ -146,4 +146,49 @@ ashuc22             ashu-customer:imgv1   "./deploy.sh"       ashu-web2         
 [ashu@ip-172-31-91-107 ashu-customer]$ 
 ```
 
+### compsoe adding one more container 
+
+```
+version: '3.8'
+services:
+  ashu-customer-webapp: # name of service / app 
+    image: ashu-customer:imgv1 
+    build:
+      context: . # location of dockerfile from compose file 
+      dockerfile: Dockerfile 
+    container_name: ashuc11 
+    ports: # docker server will accept traffic on 1234 to forward it cont at 80 
+      - 1234:80 
+  ashu-web2: 
+    image: ashu-customer:imgv1
+    container_name: ashuc22
+    ports:
+      - 4433:80 
+    environment: # passing value to web ENV variable 
+      web: "myapp2" 
+  ashu-app1: 
+    image: ashu-customer:imgv1
+    container_name: ashuc33
+    ports:
+      - 3311:80
+    environment:
+      web: "myapp1"
+```
+
+### 
+
+```
+[ashu@ip-172-31-91-107 ashu-customer]$ docker-compose up -d
+[+] Running 3/3
+ ✔ Container ashuc22  Running                                                                                                                       0.0s 
+ ✔ Container ashuc33  Started                                                                                                                       0.6s 
+ ✔ Container ashuc11  Running                                                                                                                       0.0s 
+[ashu@ip-172-31-91-107 ashu-customer]$ docker-compose ps
+NAME                IMAGE                 COMMAND             SERVICE                CREATED             STATUS              PORTS
+ashuc11             ashu-customer:imgv1   "./deploy.sh"       ashu-customer-webapp   14 minutes ago      Up 14 minutes       0.0.0.0:1234->80/tcp, :::1234->80/tcp
+ashuc22             ashu-customer:imgv1   "./deploy.sh"       ashu-web2              14 minutes ago      Up 14 minutes       0.0.0.0:4433->80/tcp, :::4433->80/tcp
+ashuc33             ashu-customer:imgv1   "./deploy.sh"       ashu-app1              11 seconds ago      Up 9 seconds        0.0.0.0:3311->80/tcp, :::3311->80/tcp
+[ashu@ip-172-31-91-107 ashu-customer]$ 
+```
+
 
