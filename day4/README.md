@@ -107,5 +107,43 @@ NAME                IMAGE                 COMMAND             SERVICE           
 ashuc11             ashu-customer:imgv1   "./deploy.sh"       ashu-customer-webapp   52 seconds ago      Up 51 seconds       0.0.0.0:1234->80/tcp, :::1234->80/tcp
 ```
 
+### compose with 2 contaienr 
+
+```
+version: '3.8'
+services:
+  ashu-customer-webapp: # name of service / app 
+    image: ashu-customer:imgv1 
+    build:
+      context: . # location of dockerfile from compose file 
+      dockerfile: Dockerfile 
+    container_name: ashuc11 
+    ports: # docker server will accept traffic on 1234 to forward it cont at 80 
+      - 1234:80 
+  ashu-web2: 
+    image: ashu-customer:imgv1
+    container_name: ashuc22
+    ports:
+      - 4433:80 
+    environment:
+      web: "myapp2" 
+```
+
+### 
+
+```
+ashu@ip-172-31-91-107 ashu-customer]$ docker-compose up -d
+[+] Running 2/2
+ ✔ Container ashuc22  Started                                                                                               0.6s 
+[ashu@ip-172-31-91-107 ashu-customer]$ docker-compose up -d
+[+] Running 2/2
+ ✔ Container ashuc11  Running                                                                                               0.0s 
+ ✔ Container ashuc22  Started                                                                                              10.8s 
+[ashu@ip-172-31-91-107 ashu-customer]$ docker-compose ps
+NAME                IMAGE                 COMMAND             SERVICE                CREATED             STATUS              PORTS
+ashuc11             ashu-customer:imgv1   "./deploy.sh"       ashu-customer-webapp   14 minutes ago      Up 14 minutes       0.0.0.0:1234->80/tcp, :::1234->80/tcp
+ashuc22             ashu-customer:imgv1   "./deploy.sh"       ashu-web2              13 seconds ago      Up 2 seconds        0.0.0.0:4433->80/tcp, :::4433->80/tcp
+[ashu@ip-172-31-91-107 ashu-customer]$ 
+```
 
 
