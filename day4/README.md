@@ -342,3 +342,81 @@ The push refers to repository [docker.io/dockerashu/ashu-customer1]
 eab474accd29: Pushed 
 aec59320d9cd: Pushed 
 ```
+
+
+### Storage 
+
+<img src="st.png">
+
+### creating volume for container storage
+
+```
+[ashu@ip-172-31-91-107 ashu-task4]$ docker  volume  ls
+DRIVER    VOLUME NAME
+[ashu@ip-172-31-91-107 ashu-task4]$ docker  volume  create ashu-disk 
+ashu-disk
+[ashu@ip-172-31-91-107 ashu-task4]$ docker  volume  ls
+DRIVER    VOLUME NAME
+local     ashu-disk
+[ashu@ip-172-31-91-107 ashu-task4]$ 
+
+
+```
+
+### creating container with storage
+
+```
+ashu@ip-172-31-91-107 ashu-task4]$ docker  volume  ls
+DRIVER    VOLUME NAME
+local     ashu-disk
+local     ashwini-disk
+local     nagashree-disk
+local     nidhi-disk
+local     rakshitha-disk
+local     yashna-disk
+[ashu@ip-172-31-91-107 ashu-task4]$ 
+[ashu@ip-172-31-91-107 ashu-task4]$ docker  run -itd --name ashuc1  -v  ashu-disk:/mnt/data   alpine  
+655cabc85b73cc6f1483f69bdd6ea804675369bb2bb4bcc8d77ff3450afc56a5
+[ashu@ip-172-31-91-107 ashu-task4]$ 
+```
+
+### creating data into same lcoation 
+
+```
+CONTAINER ID   IMAGE     COMMAND     CREATED              STATUS              PORTS     NAMES
+eb30df537c71   alpine    "/bin/sh"   5 seconds ago        Up 4 seconds                  rakshithac1
+0f64aa697142   alpine    "/bin/sh"   11 seconds ago       Up 10 seconds                 nagashreec1
+3ab40dad54e3   alpine    "/bin/sh"   About a minute ago   Up About a minute             nidhic1
+fdd4fde8bd16   alpine    "/bin/sh"   About a minute ago   Up About a minute             ashwinic1
+2c95c639e28a   alpine    "/bin/sh"   About a minute ago   Up About a minute             yashnac1
+655cabc85b73   alpine    "/bin/sh"   About a minute ago   Up About a minute             ashuc1
+
+
+[ashu@ip-172-31-91-107 ashu-task4]$ docker  exec -it ashuc1  sh 
+/ # 
+/ # cd  /mnt/data/
+/mnt/data # ls
+/mnt/data # mkdir hello world ashu 
+/mnt/data # ls
+ashu   hello  world
+/mnt/data # exit
+[ashu@ip-172-31-91-107 ashu-task4]$ 
+```
+
+### lets retest it 
+
+```
+[ashu@ip-172-31-91-107 ashu-task4]$ 
+[ashu@ip-172-31-91-107 ashu-task4]$ docker rm  ashuc1 -f
+ashuc1
+[ashu@ip-172-31-91-107 ashu-task4]$ 
+[ashu@ip-172-31-91-107 ashu-task4]$ docker  run -itd --name ashuc1  -v  ashu-disk:/mnt/data   alpine
+dbb0bfdfc84b4294f031c0cd69b4d67ed0f84a5e216d72f1bf5cd1026f6d1b81
+[ashu@ip-172-31-91-107 ashu-task4]$ 
+[ashu@ip-172-31-91-107 ashu-task4]$ docker  exec -it ashuc1  sh 
+/ # cd /mnt/data/
+/mnt/data # ls
+ashu   hello  world
+/mnt/data # exit
+```
+
