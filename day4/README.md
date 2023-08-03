@@ -62,4 +62,50 @@ else
 fi 
 ```
 
+## Docker-compose 
+
+```
+version: '3.8'
+services:
+  ashu-customer-webapp: # name of service / app 
+    image: ashu-customer:imgv1 
+    build:
+      context: . # location of dockerfile from compose file 
+      dockerfile: Dockerfile 
+    container_name: ashuc11 
+    ports: # docker server will accept traffic on 1234 to forward it cont at 80 
+      - 1234:80 
+```
+
+### building all
+
+```
+[ashu@ip-172-31-91-107 ashu-customer]$ ls
+deploy.sh  docker-compose.yaml  Dockerfile  html-sample-app  project-html-website  Tour-Project
+[ashu@ip-172-31-91-107 ashu-customer]$ docker-compose up -d 
+[+] Running 1/1
+ ! ashu-customer-webapp Warning                                                                                             0.1s 
+[+] Building 6.7s (5/13)                                                                                                         
+ => [ashu-customer-webapp internal] load build definition from Dockerfile                                                   0.1s
+ => => transferring dockerfile: 520B                                                                                        0.0s
+ => [ashu-customer-webapp internal] load .dockerignore                                                                      0.0s
+ => => transferring context: 2B                                                                                             0.0s
+ => [ashu-customer-webapp internal] load metadata for docker.io/library/oraclelinux:8.4                                     0.0s
+ => [ashu-customer-webapp 1/9] FROM docker.io/library/oraclelinux:8.4                                                       0.0s
+ => [ashu-customer-webapp internal] load build context                                                                      0.3s
+ => => transferring context: 15.37MB                                                                                        0.2s
+ => [ashu-customer-webapp 2/9] RUN yum install httpd -y                                                                     6.6s
+ => => # Oracle Linux 8 BaseOS Latest (x86_64)            95 MB/s |  61 MB     00:00                                            
+
+```
+
+### checking status
+
+```
+[ashu@ip-172-31-91-107 ashu-customer]$ docker-compose ps
+NAME                IMAGE                 COMMAND             SERVICE                CREATED             STATUS              PORTS
+ashuc11             ashu-customer:imgv1   "./deploy.sh"       ashu-customer-webapp   52 seconds ago      Up 51 seconds       0.0.0.0:1234->80/tcp, :::1234->80/tcp
+```
+
+
 
