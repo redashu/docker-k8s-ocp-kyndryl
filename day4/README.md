@@ -191,4 +191,9 @@ ashuc33             ashu-customer:imgv1   "./deploy.sh"       ashu-app1         
 [ashu@ip-172-31-91-107 ashu-customer]$ 
 ```
 
+### task 4
+
+<img src="task4.png">
+
+
 
