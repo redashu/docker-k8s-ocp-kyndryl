@@ -195,5 +195,87 @@ ashuc33             ashu-customer:imgv1   "./deploy.sh"       ashu-app1         
 
 <img src="task4.png">
 
+### Solution 
 
+```
+[ashu@ip-172-31-91-107 ashu-task4]$ ls
+docker-compose.yaml  java-code  python-code
+[ashu@ip-172-31-91-107 ashu-task4]$ docker-compose  up -d --build 
+[+] Building 3.2s (17/17) FINISHED                                                                                               
+ => [ashu-java-app internal] load build definition from Dockerfile                                                          0.0s
+ => => transferring dockerfile: 311B                                                                                        0.0s
+ => [ashu-python-app internal] load build definition from python38.dockerfile                                               0.0s
+ => => transferring dockerfile: 214B                                                                                        0.0s
+ => [ashu-python-app internal] load .dockerignore                                                                           0.0s
+ => => transferring context: 2B                                                                                             0.0s
+ => [ashu-java-app internal] load .dockerignore                                                                             0.0s
+ => => transferring context: 2B                                                                                             0.0s
+ => [ashu-java-app internal] load metadata for docker.io/library/openjdk:latest                                             0.0s
+ => [ashu-java-app 1/5] FROM docker.io/library/openjdk                                                                      0.1s
+ => [ashu-java-app internal] load build context                                                                             0.1s
+ => => transferring context: 394B                                                                                           0.0s
+ => [ashu-python-app internal] load metadata for docker.io/library/python:3.8                                               0.0s
+ => [ashu-python-app internal] load build context                                                                           0.1s
+ => => transferring context: 272B                                                                                           0.0s
+ => [ashu-python-app 1/3] FROM docker.io/library/python:3.8                                                                 0.3s
+ => [ashu-java-app 2/5] RUN mkdir  /mycode                                                                                  0.6s
+ => [ashu-python-app 2/3] RUN mkdir /ashucode                                                                               0.6s
+ => [ashu-java-app 3/5] COPY hello.java /mycode/hello.java                                                                  0.0s
+ => [ashu-java-app 4/5] WORKDIR /mycode                                                                                     0.0s
+ => [ashu-java-app 5/5] RUN javac hello.java                                                                                2.1s
+ => [ashu-python-app 3/3] COPY  hello.py /ashucode/hello.py                                                                 0.1s
+ => [ashu-java-app] exporting to image                                                                                      0.2s
+ => => exporting layers                                                                                                     0.1s
+ => => writing image sha256:d2553ffd09d6b6a5c802fdee4a63e15f394350ec998edc85bfae518e4e714669                                0.0s
+ => => naming to docker.io/library/ashupython:v1111                                                                         0.0s
+ => => writing image sha256:5a36b51358da0143a1f94e03f19be4842e4a407b3e8913aafe40eb011ad1aa1f                                0.0s
+ => => naming to docker.io/library/ashujava-code:v4444                                                                      0.0s
+[+] Running 3/3
+ ✔ Network ashu-task4_default  Created                                                                                      0.0s 
+ ✔ Container ashujavac1        Started                                                                                      0.9s 
+ ✔ Container ashucpyc1         Started                                                                                      0.8s 
+[ashu@ip-172-31-91-107 ashu-task4]$ docker-compose  ps
+NAME                IMAGE                 COMMAND                  SERVICE             CREATED             STATUS              PORTS
+ashucpyc1           ashupython:v1111      "python /ashucode/he…"   ashu-python-app     6 seconds ago       Up 5 seconds        
+ashujavac1          ashujava-code:v4444   "java hello"             ashu-java-app       6 seconds ago       Up 5 seconds        
+[ashu@ip-172-31-91-107 ashu-task4]$ docker-compose  logs ashu-python-app
+ashucpyc1  | Hello all , welcome to python..!!
+ashucpyc1  | Welcome to Docker ..
+ashucpyc1  | Welcome to Containers ..!!
+ashucpyc1  | ______________________
+ashucpyc1  | Hello all , welcome to python..!!
+ashucpyc1  | Welcome to Docker ..
+[ashu@ip-172-31-91-107 ashu-task4]$ docker-compose  logs ashu-java-app
+ashujavac1  | Hello World
+ashujavac1  | Hello World
+ashujavac1  | Hello World
+ashujavac1  | Hello World
+ashujavac1  | Hello World
+ashujavac1  | Hello World
+ashujavac1  | Hello World
+ashujavac1  | Hello World
+ashujavac1  | Hello World
+```
+
+### solution composefile
+
+```
+version: '3.8'
+services:
+  ashu-python-app:
+    image: ashupython:v1111
+    build: 
+      context: python-code 
+      dockerfile: python38.dockerfile
+    container_name: ashucpyc1
+    tty: true 
+    
+  ashu-java-app:
+    image: ashujava-code:v4444 
+    build: 
+      context: java-code
+      dockerfile: Dockerfile 
+    container_name: ashujavac1
+    tty: true 
+```
 
