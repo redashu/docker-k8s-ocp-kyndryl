@@ -110,3 +110,17 @@ ashudbc1            mysql               "docker-entrypoint.s…"   ashu-db-app  
 ashuwebc1           adminer             "entrypoint.sh php -…"   ashu-web-app        About a minute ago   Up About a minute   0.0.0.0:1234->8080/tcp, :::1234->8080/tcp
 [ashu@ip-172-31-91-107 final-project-ashu]$ 
 ```
+
+### understanding journey 
+
+<img src="jn.png">
+
+## problem in container docker if -- the big companies are gonna use it like Netflix & hotstar
+
+<img src="prob1.png">
+
+### A solution by GOogle -- product called Kubernetes (k8s)
+
+<img src="k8s1.png">
+
+
