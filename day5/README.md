@@ -124,3 +124,21 @@ ashuwebc1           adminer             "entrypoint.sh php -…"   ashu-web-app 
 <img src="k8s1.png">
 
 
+## Understanding k8s -- How it gonna solve problems 
+
+## k8s -architecture 
+
+### basic layers -- 3 layer (k8s clients -- k8s master -- k8s workers )
+
+<img src="k8s2.png">
+
+### K8s master components 
+
+## components of control plane / master server
+
+<img src="compo1.png">
+
+### api-server role in k8s control plane 
+
+<img src="apis.png">
+
