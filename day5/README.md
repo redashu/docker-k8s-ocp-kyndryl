@@ -244,5 +244,43 @@ node2    Ready    <none>          160m   v1.27.4
 
 <img src="podc.png">
 
+## Time to create pod 
+
+<img src="podcc.png">
+
+## First POd yaml file 
+
+```
+apiVersion: v1 
+kind: Pod 
+metadata: # info about kind  
+  name: ashupod  # name of my first pod 
+spec: # all the details about your app like volume,security,containers
+  containers:
+  - name: ashuc1 
+    image: docker.io/dockerashu/ashu-customer1:releasev1
+    ports: # optional part 
+    - containerPort: 80 # app server port of docker image
+```
+
+### sending create request to k8s master api server
+
+```
+[ashu@ip-172-31-91-107 k8s-files]$ ls
+ashupod1.yaml
+[ashu@ip-172-31-91-107 k8s-files]$ kubectl  create -f  ashupod1.yaml 
+pod/ashupod created
+
+====>
+[ashu@ip-172-31-91-107 k8s-files]$ kubectl  get  pods
+NAME           READY   STATUS    RESTARTS   AGE
+ashupod        1/1     Running   0          17s
+nidhipod       1/1     Running   0          5s
+rakshithapod   1/1     Running   0          14s
+yashnapod      1/1     Running   0          12s
+```
+
+
+
 
 
