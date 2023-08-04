@@ -173,3 +173,58 @@ node2    Ready    <none>          153m   v1.27.4
 [ashu@ip-172-31-91-107 ~]$ 
 ```
 
+### checking cluster info  
+
+```
+[ashu@ip-172-31-91-107 ~]$ kubectl  cluster-info  --kubeconfig  admin.conf  
+Kubernetes control plane is running at https://172.31.86.69:6443
+CoreDNS is running at https://172.31.86.69:6443/api/v1/namespaces/kube-system/services/kube-dns:dns/proxy
+
+To further debug and diagnose cluster problems, use 'kubectl cluster-info dump'.
+[ashu@ip-172-31-91-107 ~]$ 
+
+===>>
+
+ashu@ip-172-31-91-107 ~]$ kubectl  version  -o yaml  --kubeconfig  admin.conf  
+clientVersion:
+  buildDate: "2023-07-19T12:20:54Z"
+  compiler: gc
+  gitCommit: fa3d7990104d7c1f16943a67f11b154b71f6a132
+  gitTreeState: clean
+  gitVersion: v1.27.4
+  goVersion: go1.20.6
+  major: "1"
+  minor: "27"
+  platform: linux/amd64
+kustomizeVersion: v5.0.1
+serverVersion:
+  buildDate: "2023-07-19T12:14:49Z"
+  compiler: gc
+  gitCommit: fa3d7990104d7c1f16943a67f11b154b71f6a132
+  gitTreeState: clean
+  gitVersion: v1.27.4
+  goVersion: go1.20.6
+  major: "1"
+  minor: "27"
+  platform: linux/amd64
+
+```
+
+### copy admin.conf (kubeconfig file) to the home directory of current user 
+
+```
+ashu@ip-172-31-91-107 ~]$ cp  -v  admin.conf   ~/.kube/config 
+‘admin.conf’ -> ‘/home/ashu/.kube/config’
+
+
+[ashu@ip-172-31-91-107 ~]$ 
+[ashu@ip-172-31-91-107 ~]$ kubectl  get  nodes
+NAME     STATUS   ROLES           AGE    VERSION
+master   Ready    control-plane   164m   v1.27.4
+node1    Ready    <none>          160m   v1.27.4
+node2    Ready    <none>          160m   v1.27.4
+[ashu@ip-172-31-91-107 ~]$ 
+
+
+```
+
