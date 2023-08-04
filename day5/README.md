@@ -280,7 +280,104 @@ rakshithapod   1/1     Running   0          14s
 yashnapod      1/1     Running   0          12s
 ```
 
+### kube-schedular is planning pods to the relevant node 
+
+```
+[ashu@ip-172-31-91-107 k8s-files]$ kubectl  get  pods -o wide 
+NAME           READY   STATUS    RESTARTS   AGE     IP                NODE    NOMINATED NODE   READINESS GATES
+ashupod        1/1     Running   0          9m15s   192.168.104.3     node2   <none>           <none>
+ashwinipod     1/1     Running   0          5m3s    192.168.104.6     node2   <none>           <none>
+nagashreepod   1/1     Running   0          6m50s   192.168.166.133   node1   <none>           <none>
+nidhipod       1/1     Running   0          9m3s    192.168.104.5     node2   <none>           <none>
+rakshithapod   1/1     Running   0          9m12s   192.168.104.4     node2   <none>           <none>
+yashnapod      1/1     Running   0          9m10s   192.168.166.132   node1   <none>           <none>
+[ashu@ip-172-31-91-107 k8s-files]$ 
 
 
+```
 
+### describe pod 
+
+```
+[ashu@ip-172-31-91-107 k8s-files]$ kubectl  describe  pod ashupod 
+Name:             ashupod
+Namespace:        default
+Priority:         0
+Service Account:  default
+Node:             node2/172.31.93.48
+Start Time:       Fri, 04 Aug 2023 10:55:12 +0000
+Labels:           <none>
+Annotations:      cni.projectcalico.org/containerID: 5cd890f1e45a192bdc2bfa255a0f8e7e375dbdf4660994f7948c0c74d8665955
+                  cni.projectcalico.org/podIP: 192.168.104.3/32
+                  cni.projectcalico.org/podIPs: 192.168.104.3/32
+Status:           Running
+IP:               192.168.104.3
+IPs:
+  IP:  192.168.104.3
+Containers:
+  ashuc1:
+    Container ID:   containerd://52a21ffda12ed9051f21c7b2919eb4bfe9d72ffbf76a92c38583ec93c62d5031
+    Image:          docker.io/dockerashu/ashu-customer1:releasev1
+    Image ID:       docker.io/dockerashu/ashu-customer1@sha256:202fe026e81dcea29fc74f8ca68440b6f097e67647d2c7e09819f954ff9ceaba
+    Port:           80/TCP
+    Host Port:      0/TCP
+    State:          Running
+      Started:      Fri, 04 Aug 2023 10:55:21 +0000
+    Ready:          True
+    Restart Count:  0
+    Environment:    <none>
+    Mounts:
+      /var/run/secrets/kubernetes.io/serviceaccount from kube-api-acce
+```
+
+### How to access container inside pod 
+
+```
+[ashu@ip-172-31-91-107 k8s-files]$ kubectl  exec  -it   ashupod  --  bash 
+[root@ashupod code]# 
+[root@ashupod code]# ls
+deploy.sh  webapp1  webapp2  webapp3
+[root@ashupod code]# cd  /var/www/html/
+[root@ashupod html]# ls
+index.html
+[root@ashupod html]# cat  /etc/os-release 
+NAME="Oracle Linux Server"
+VERSION="8.4"
+ID="ol"
+ID_LIKE="fedora"
+VARIANT="Server"
+VARIANT_ID="server"
+VERSION_ID="8.4"
+PLATFORM_ID="platform:el8"
+PRETTY_NAME="Oracle Linux Server 8.4"
+ANSI_COLOR="0;31"
+CPE_NAME="cpe:/o:oracle:linux:8:4:server"
+HOME_URL="https://linux.oracle.com/"
+BUG_REPORT_URL="https://bugzilla.oracle.com/"
+
+ORACLE_BUGZILLA_PRODUCT="Oracle Linux 8"
+ORACLE_BUGZILLA_PRODUCT_VERSION=8.4
+ORACLE_SUPPORT_PRODUCT="Oracle Linux"
+ORACLE_SUPPORT_PRODUCT_VERSION=8.4
+[root@ashupod html]# exit
+exit
+```
+
+### Deleting pod 
+
+```
+[ashu@ip-172-31-91-107 k8s-files]$ kubectl delete  -f  ashupod1.yaml 
+pod "ashupod" deleted
+[ashu@ip-172-31-91-107 k8s-files]$ kubectl  get po 
+NAME           READY   STATUS        RESTARTS   AGE
+ashwinipod     1/1     Running       0          12m
+nagashreepod   1/1     Running       0          13m
+nidhipod       1/1     Terminating   0          16m
+rakshithapod   1/1     Running       0          16m
+yashnapod      1/1     Running       0          16m
+[ashu@ip-172-31-91-107 k8s-files]$ 
+[ashu@ip-172-31-91-107 k8s-files]$ kubectl  delete  pod yashnapod  
+pod "yashnapod" deleted
+
+```
 
