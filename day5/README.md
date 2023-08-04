@@ -228,3 +228,21 @@ node2    Ready    <none>          160m   v1.27.4
 
 ```
 
+## Journey to developer ---> Docker -- > Registry --> Kubernetes 
+
+<img src="jk8s.png">
+
+### understanding node components 
+
+<img src="nodec.png">
+
+### api-server <--->kubelet 
+
+<img src="kubelet.png">
+
+### Understanding container vs pod in docker vs kubernetes 
+
+<img src="podc.png">
+
+
+
