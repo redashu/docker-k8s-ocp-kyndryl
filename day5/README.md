@@ -142,3 +142,34 @@ ashuwebc1           adminer             "entrypoint.sh php -…"   ashu-web-app 
 
 <img src="apis.png">
 
+### k8s client side software options 
+
+<img src="client.png">
+
+### installed kubectl on linux machine -- 
+
+```
+[ashu@ip-172-31-91-107 ~]$ kubectl 
+kubectl controls the Kubernetes cluster manager.
+
+ Find more information at: https://kubernetes.io/docs/reference/kubectl/
+
+Basic Commands (Beginner):
+  create          Create a resource from a file or from stdin
+  expose          Take a replication controller, service, deployment or pod and expose it as a new Kubernetes service
+  run             Run a particular image on the cluster
+  set             Set specific features on objects
+
+```
+
+### after having cred file from control plane lets send first request to Apiserver
+
+```
+[ashu@ip-172-31-91-107 ~]$ kubectl   get  nodes   --kubeconfig  admin.conf  
+NAME     STATUS   ROLES           AGE    VERSION
+master   Ready    control-plane   157m   v1.27.4
+node1    Ready    <none>          153m   v1.27.4
+node2    Ready    <none>          153m   v1.27.4
+[ashu@ip-172-31-91-107 ~]$ 
+```
+
