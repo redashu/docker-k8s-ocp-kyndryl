@@ -293,4 +293,9 @@ ashwini-webpod     1/1     Running       0          50m
   481  history 
 ```
 
+## Understanding all docker & k8s concept 
+
+<img src="ut.png">
+
+
 
