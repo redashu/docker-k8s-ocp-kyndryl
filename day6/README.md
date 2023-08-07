@@ -189,3 +189,58 @@ Please check your variable or Value
 
 <img src="svc.png">
 
+### type of service in k8s 
+
+<img src="stype.png">
+
+### creating nodeport type service 
+
+```
+[ashu@ip-172-31-91-107 k8s-files]$ kubectl  get  pod
+NAME               READY   STATUS    RESTARTS   AGE
+ashu-webpod        1/1     Running   0          41m
+ashwini-webpod     1/1     Running   0          37m
+nagashree-webpod   1/1     Running   0          36m
+nidhi-webpod       1/1     Running   0          36m
+rakshitha-webpod   1/1     Running   0          39m
+yashna-webpod      1/1     Running   0          35m
+
+[ashu@ip-172-31-91-107 k8s-files]$ kubectl expose  pod  ashu-webpod --type NodePort --port 80 --name ashulb1 --dry-run=client -o yaml  >ashusvc1.yaml
+
+[ashu@ip-172-31-91-10
+```
+
+### a visual look of service manifest file
+
+```
+apiVersion: v1
+kind: Service
+metadata:
+  creationTimestamp: null
+  labels:
+    run: ashu-webpod
+  name: ashulb1
+spec:
+  ports:
+  - port: 80
+    protocol: TCP
+    targetPort: 80
+  selector:
+    run: ashu-webpod
+  type: NodePort
+status:
+  loadBalancer: {}
+
+```
+
+### creating it 
+
+```
+[ashu@ip-172-31-91-107 k8s-files]$ kubectl  create -f ashusvc1.yaml 
+service/ashulb1 created
+[ashu@ip-172-31-91-107 k8s-files]$ kubectl  get  svc
+NAME         TYPE        CLUSTER-IP       EXTERNAL-IP   PORT(S)        AGE
+ashulb1      NodePort    10.100.246.205   <none>        80:30816/TCP   5s
+```
+
+
