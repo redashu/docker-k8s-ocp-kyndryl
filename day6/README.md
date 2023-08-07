@@ -77,3 +77,19 @@ NAME           READY   STATUS        RESTARTS   AGE
 ashupod        2/2     Running       0          9s
 ```
 
+### connecting to particular container
+
+```
+[ashu@ip-172-31-91-107 k8s-files]$ kubectl exec -it ashupod -c ashuc1  -- bash 
+[root@ashupod code]# ls
+deploy.sh  webapp1  webapp2  webapp3
+[root@ashupod code]# exit
+exit
+
+
+
+[ashu@ip-172-31-91-107 k8s-files]$ kubectl exec -it ashupod -c ashuc2  -- sh 
+/ # ls
+bin    dev    etc    home   lib    media  mnt    opt    proc   root   run    sbin   srv    sys    tmp    usr    var
+/ # exit
+```
