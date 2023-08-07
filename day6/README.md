@@ -281,3 +281,16 @@ ashu-webpod        1/1     Running       0          12s
 ashwini-webpod     1/1     Running       0          50m
 ```
 
+### solution of task  2
+
+```
+475  kubectl run ashu-adpod1 --image=adminer --port 8080 --dry-run=client -o yaml >task2.yaml 
+  476  kubectl create -f task2.yaml 
+  477  kubectl get po 
+  478  kubectl expose pod ashu-adpod1  --type NodePort --port 8080 --name ashulb2 --dry-run=client -o yaml >svc2.yaml 
+  479  kubectl create -f svc2.yaml 
+  480  kubectl  get  svc
+  481  history 
+```
+
+
