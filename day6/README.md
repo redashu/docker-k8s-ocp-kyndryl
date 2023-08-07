@@ -93,3 +93,54 @@ exit
 bin    dev    etc    home   lib    media  mnt    opt    proc   root   run    sbin   srv    sys    tmp    usr    var
 / # exit
 ```
+
+### deleting pods
+
+```
+[ashu@ip-172-31-91-107 k8s-files]$ kubectl delete pod ashupod
+pod "ashupod" deleted
+
+```
+
+### auto generated manifest file
+
+```
+[ashu@ip-172-31-91-107 k8s-files]$ kubectl  run  ashupod2  --image=docker.io/dockerashu/ashu-customer1:releasev1 --port 80  --dry-run=client  -o yaml 
+apiVersion: v1
+kind: Pod
+metadata:
+  creationTimestamp: null
+  labels:
+    run: ashupod2
+  name: ashupod2
+spec:
+  containers:
+  - image: docker.io/dockerashu/ashu-customer1:releasev1
+    name: ashupod2
+    ports:
+    - containerPort: 80
+    resources: {}
+  dnsPolicy: ClusterFirst
+  restartPolicy: Always
+status: {}
+[ashu@ip-172-31-91-107 k8s-files]$ kubectl  run  ashupod2  --image=docker.io/dockerashu/ashu-customer1:releasev1 --port 80  --dry-run=client  -o yaml       >ashupod_auto.yaml 
+[ashu@ip-172-31-91-107 k8s-files]$ kubectl  run  ashupod2  --image=docker.io/dockerashu/ashu-customer1:releasev1 --port 80  --dry-run=client  -o json      >newpod.json 
+[ashu@ip-172-31-91-107 k8s-files]$ 
+
+```
+
+### testing 
+
+```
+ashu@ip-172-31-91-107 k8s-files]$ ls
+ashupod1.yaml  ashupod_auto.yaml  newpod.json
+[ashu@ip-172-31-91-107 k8s-files]$ kubectl  create -f newpod.json 
+pod/ashupod2 created
+[ashu@ip-172-31-91-107 k8s-files]$ kubectl  get  po
+NAME       READY   STATUS    RESTARTS   AGE
+ashupod2   1/1     Running   0          3s
+[ashu@ip-172-31-91-107 k8s-files]$ kubectl delete -f newpod.json 
+pod "ashupod2" deleted
+
+
+```
