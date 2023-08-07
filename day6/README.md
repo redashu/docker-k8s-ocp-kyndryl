@@ -44,5 +44,36 @@ ashwinipod   1/1     Running   0          8s
 [ashu@ip-172-31-91-107 k8s-files]$ 
 ```
 
+### Understanding Etcd component of control plane machine 
 
+<img src="etcd.png">
+
+### creating a pod manifest with multi container concept 
+
+```
+apiVersion: v1 
+kind: Pod 
+metadata: # info about kind  
+  name: ashupod  # name of my first pod 
+spec: # all the details about your app like volume,security,containers
+  containers:
+  - name: ashuc2
+    image: alpine 
+    command: ['sh','-c','sleep 10000']
+  - name: ashuc1 
+    image: docker.io/dockerashu/ashu-customer1:releasev1
+    ports: # optional part 
+    - containerPort: 80 # app server port of docker image
+```
+
+### lets apply changes
+
+```
+[ashu@ip-172-31-91-107 k8s-files]$ kubectl replace -f  ashupod1.yaml  --force 
+pod "ashupod" deleted
+pod/ashupod replaced
+[ashu@ip-172-31-91-107 k8s-files]$ kubectl  get  pods
+NAME           READY   STATUS        RESTARTS   AGE
+ashupod        2/2     Running       0          9s
+```
 
