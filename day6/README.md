@@ -167,3 +167,25 @@ ashu-webpod   1/1     Running   0          5s    192.168.104.28   node2   <none>
 [ashu@ip-172-31-91-107 k8s-files]$ 
 
 ```
+
+### testing pod connecting using curl http request maker 
+
+```
+ashu@ip-172-31-91-107 k8s-files]$ kubectl exec -it  ashu-webpod -- bash 
+[root@ashu-webpod code]# 
+[root@ashu-webpod code]# 
+[root@ashu-webpod code]# curl 
+curl: try 'curl --help' or 'curl --manual' for more information
+[root@ashu-webpod code]# 
+[root@ashu-webpod code]# curl  http://192.168.166.143
+Please check your variable or Value
+[root@ashu-webpod code]# curl  http://192.168.166.144
+Please check your variable or Value
+[root@ashu-webpod code]# curl  http://192.168.104.30
+Please check your variable or Value
+```
+
+### Introductiont to k8s internal LB -- using Service Resource 
+
+<img src="svc.png">
+
