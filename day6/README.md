@@ -1,3 +1,4 @@
+
 # docker-k8s-ocp-kyndryl
 
 ### Revision of Docker 
@@ -142,5 +143,27 @@ ashupod2   1/1     Running   0          3s
 [ashu@ip-172-31-91-107 k8s-files]$ kubectl delete -f newpod.json 
 pod "ashupod2" deleted
 
+
+```
+
+### Pod networking by k8s 
+
+<img src="podnet1.png">
+
+## Testing pod networking 
+### creating and checking pod
+
+```
+[ashu@ip-172-31-91-107 k8s-files]$ kubectl  run ashu-webpod --image=dockerashu/ashu-customer1:releasev1 --port 80 --dry-run=client  -o yaml >webapod.yaml 
+[ashu@ip-172-31-91-107 k8s-files]$ ls
+ashupod1.yaml  ashupod_auto.yaml  logs.txt  newpod.json  task1.yaml  webapod.yaml
+
+[ashu@ip-172-31-91-107 k8s-files]$ kubectl create -f webapod.yaml 
+pod/ashu-webpod created
+
+[ashu@ip-172-31-91-107 k8s-files]$ kubectl get pods -o wide
+NAME          READY   STATUS    RESTARTS   AGE   IP               NODE    NOMINATED NODE   READINESS GATES
+ashu-webpod   1/1     Running   0          5s    192.168.104.28   node2   <none>           <none>
+[ashu@ip-172-31-91-107 k8s-files]$ 
 
 ```
