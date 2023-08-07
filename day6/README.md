@@ -243,4 +243,41 @@ NAME         TYPE        CLUSTER-IP       EXTERNAL-IP   PORT(S)        AGE
 ashulb1      NodePort    10.100.246.205   <none>        80:30816/TCP   5s
 ```
 
+### passing ENV in pod manifest file
+
+```
+apiVersion: v1
+kind: Pod
+metadata:
+  creationTimestamp: null
+  labels:
+    run: ashu-webpod
+  name: ashu-webpod
+spec:
+  containers:
+  - image: dockerashu/ashu-customer1:releasev1
+    name: ashu-webpod
+    ports:
+    - containerPort: 80
+    resources: {}
+    env: # passing ENV variable and its value 
+    - name: web # name of env
+      value: myapp1   # value of env 
+  dnsPolicy: ClusterFirst
+  restartPolicy: Always
+status: {}
+
+```
+
+### creating it 
+
+```
+[ashu@ip-172-31-91-107 k8s-files]$ kubectl  replace  -f webapod.yaml --force
+pod "ashu-webpod" deleted
+pod/ashu-webpod replaced
+[ashu@ip-172-31-91-107 k8s-files]$ kubectl get po
+NAME               READY   STATUS        RESTARTS   AGE
+ashu-webpod        1/1     Running       0          12s
+ashwini-webpod     1/1     Running       0          50m
+```
 
