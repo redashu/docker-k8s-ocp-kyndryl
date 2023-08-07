@@ -297,5 +297,25 @@ ashwini-webpod     1/1     Running       0          50m
 
 <img src="ut.png">
 
+### task 6 -- Phase 1 
+
+```
+===Dockerfile
+
+FROm oraclelinux:8.4
+RUN yum install httpd -y  
+COPY Hospital-Management-Html /var/www/html/
+CMD ["httpd","-DFOREGROUND"]
+==docker-compose file
+version: '3.8'
+services:
+  ashuapp1:
+    image: docker.io/dockerashu/task6:v1
+    container_name: ashuc1
+    build: 
+      context: .
+      dockerfile:  Dockerfile 
+
+```
 
 
