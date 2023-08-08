@@ -113,5 +113,83 @@ ashulb1   NodePort   10.103.12.59   <none>        80:31333/TCP   7s
 
 ```
 
+## Deployment controller introduction 
+
+<img src="depc.png">
+
+### deleting pod,svc 
+
+```
+[ashu@ip-172-31-91-107 day7]$ kubectl get po,svc
+NAME              READY   STATUS    RESTARTS   AGE
+pod/ashu-webpod   1/1     Running   0          22m
+
+NAME              TYPE       CLUSTER-IP     EXTERNAL-IP   PORT(S)        AGE
+service/ashulb1   NodePort   10.103.12.59   <none>        80:31333/TCP   17m
+[ashu@ip-172-31-91-107 day7]$ 
+[ashu@ip-172-31-91-107 day7]$ kubectl  delete pod,svc --all
+pod "ashu-webpod" deleted
+service "ashulb1" deleted
+
+```
+
+### creating deployment controller based pods
+
+```
+ kubectl  create  deployment  ashu-app-deploy  --image=docker.io/dockerashu/ashu-customer1:releasev1 --port 80 --dry-run=client -o yaml >deployment1.yaml
+```
+
+### updating manifest 
+
+```
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  creationTimestamp: null
+  labels:
+    app: ashu-app-deploy
+  name: ashu-app-deploy # name of deployment 
+spec:
+  replicas: 1 # number of pods we want 
+  selector:
+    matchLabels:
+      app: ashu-app-deploy
+  strategy: {}
+  template: # deployment will be using pod template to create multiple pods
+    metadata:
+      creationTimestamp: null
+      labels:
+        app: ashu-app-deploy
+    spec:
+      containers:
+      - image: docker.io/dockerashu/ashu-customer1:releasev1
+        name: ashu-customer1
+        ports:
+        - containerPort: 80
+        resources: {}
+        env:
+        - name: web
+          value: myapp3 
+status: {}
+
+```
+
+### creating it 
+
+```
+[ashu@ip-172-31-91-107 day7]$ kubectl  create -f deployment1.yaml 
+deployment.apps/ashu-app-deploy created
+[ashu@ip-172-31-91-107 day7]$ 
+[ashu@ip-172-31-91-107 day7]$ kubectl get  deployment 
+NAME              READY   UP-TO-DATE   AVAILABLE   AGE
+ashu-app-deploy   1/1     1            1           5s
+[ashu@ip-172-31-91-107 day7]$ kubectl  get  pods
+NAME                               READY   STATUS    RESTARTS   AGE
+ashu-app-deploy-64bcd577fb-sw4zf   1/1     Running   0          9s
+[ashu@ip-172-31-91-107 day7]$ 
+
+```
+
+
 
 
