@@ -224,7 +224,44 @@ ashu-app-deploy-64bcd577fb-jcqhl   1/1     Running   0          10s
 ashu-app-deploy-64bcd577fb-vsq8m   1/1     Running   0          10s
 ```
 
+## Its not a good idea to change replica count in the YAML manifest 
 
+### to scale pod using deployment controller 
+
+```
+[ashu@ip-172-31-91-107 day7]$ kubectl get deploy 
+NAME              READY   UP-TO-DATE   AVAILABLE   AGE
+ashu-app-deploy   1/1     1            1           91m
+
+[ashu@ip-172-31-91-107 day7]$ kubectl  scale  deployment  ashu-app-deploy  --replicas=4
+deployment.apps/ashu-app-deploy scaled
+
+[ashu@ip-172-31-91-107 day7]$ kubectl get deploy 
+NAME              READY   UP-TO-DATE   AVAILABLE   AGE
+ashu-app-deploy   4/4     4            4           92m
+
+[ashu@ip-172-31-91-107 day7]$ kubectl get po
+NAME                               READY   STATUS    RESTARTS   AGE
+ashu-app-deploy-64bcd577fb-jcqhl   1/1     Running   0          71m
+ashu-app-deploy-64bcd577fb-knlnv   1/1     Running   0          15s
+ashu-app-deploy-64bcd577fb-n5kq5   1/1     Running   0          15s
+ashu-app-deploy-64bcd577fb-w29sm   1/1     Running   0          15s
+[ashu@ip-172-31-91-107 day7]$ 
+```
+
+### svc always create EP database to maintain IPaddress of pods 
+
+```
+[ashu@ip-172-31-91-107 day7]$ kubectl  get svc
+NAME   TYPE           CLUSTER-IP       EXTERNAL-IP   PORT(S)        AGE
+lb1    LoadBalancer   10.111.118.239   <pending>     80:31178/TCP   80m
+[ashu@ip-172-31-91-107 day7]$ 
+[ashu@ip-172-31-91-107 day7]$ 
+[ashu@ip-172-31-91-107 day7]$ kubectl  get  ep 
+NAME   ENDPOINTS                                                            AGE
+lb1    192.168.104.11:80,192.168.104.13:80,192.168.166.165:80 + 1 more...   81m
+[ashu@ip-172-31-91-107 day7]$ 
+```
 
 
 
