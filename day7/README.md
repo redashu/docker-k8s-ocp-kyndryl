@@ -331,4 +331,76 @@ service "lb1" deleted
 
 ```
 
+### creating merge manifest
 
+```
+apiVersion: v1
+kind: Namespace
+metadata:
+  creationTimestamp: null
+  name: ashuk8s
+spec: {}
+status: {}
+
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  creationTimestamp: null
+  labels:
+    run: ashupod1
+  name: ashupod1
+  namespace: ashuk8s # defining namespace manually 
+spec:
+  containers:
+  - command:
+    - sleep
+    - "10000"
+    image: ubuntu:latest
+    name: ashupod1
+    resources: {}
+  dnsPolicy: ClusterFirst
+  restartPolicy: Always
+status: {}
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  creationTimestamp: null
+  labels:
+    app: ashusvc1
+  name: ashusvc1
+  namespace: ashuk8s
+spec:
+  ports:
+  - name: 1234-80
+    port: 1234
+    protocol: TCP
+    targetPort: 80
+    nodePort: 31009 # static selection of port 
+  selector:
+    app: ashusvc1
+  type: NodePort
+status:
+  loadBalancer: {}
+```
+
+### 
+
+```
+[ashu@ip-172-31-91-107 day7]$ kubectl  get  po  -n ashuk8s 
+NAME       READY   STATUS    RESTARTS   AGE
+ashupod1   1/1     Running   0          6s
+[ashu@ip-172-31-91-107 day7]$ kubectl  get  svc  -n ashuk8s 
+NAME       TYPE       CLUSTER-IP      EXTERNAL-IP   PORT(S)          AGE
+ashusvc1   NodePort   10.110.78.206   <none>        1234:31009/TCP   9s
+[ashu@ip-172-31-91-107 day7]$ ls
+ashu-merge.yaml  deployment1.yaml  lb.yaml  mytask.yaml  nodeport.yaml  pod1.yaml
+[ashu@ip-172-31-91-107 day7]$ 
+[ashu@ip-172-31-91-107 day7]$ 
+[ashu@ip-172-31-91-107 day7]$ kubectl -n  ashuk8s cp  pod1.yaml   ashupod1:/tmp/
+[ashu@ip-172-31-91-107 day7]$ 
+
+
+```
