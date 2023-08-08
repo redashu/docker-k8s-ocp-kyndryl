@@ -92,5 +92,26 @@ ashu-webpod   1/1     Running   0          4s
 
 ```
 
+### creating nodeport service by exposing pod 
+
+```
+[ashu@ip-172-31-91-107 day7]$ kubectl get pods
+NAME          READY   STATUS    RESTARTS   AGE
+ashu-webpod   1/1     Running   0          3m57s
+[ashu@ip-172-31-91-107 day7]$ kubectl  expose pod  ashu-webpod  --type NodePort --port 80 --name ashulb1 --dry-run=client -o yaml  >nodeport.yaml 
+[ashu@ip-172-31-91-107 day7]$ ls
+nodeport.yaml  pod1.yaml
+[ashu@ip-172-31-91-107 day7]$ kubectl  create -f nodeport.yaml 
+service/ashulb1 created
+[ashu@ip-172-31-91-107 day7]$ kubectl get svc
+NAME      TYPE       CLUSTER-IP     EXTERNAL-IP   PORT(S)        AGE
+ashulb1   NodePort   10.103.12.59   <none>        80:31333/TCP   3s
+[ashu@ip-172-31-91-107 day7]$ kubectl get service
+NAME      TYPE       CLUSTER-IP     EXTERNAL-IP   PORT(S)        AGE
+ashulb1   NodePort   10.103.12.59   <none>        80:31333/TCP   7s
+[ashu@ip-172-31-91-107 day7]$ 
+
+```
+
 
 
