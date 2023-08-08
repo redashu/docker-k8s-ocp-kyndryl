@@ -404,3 +404,40 @@ ashu-merge.yaml  deployment1.yaml  lb.yaml  mytask.yaml  nodeport.yaml  pod1.yam
 
 
 ```
+
+### useful commands
+
+```
+[ashu@ip-172-31-91-107 day7]$ kubectl  get  deploy  -A
+NAMESPACE              NAME                        READY   UP-TO-DATE   AVAILABLE   AGE
+ashu-project           ashu-app                    1/1     1            1           7m17s
+ashwini-project        ashwini-app-deploy          1/1     1            1           53m
+ashwinik8s1            ashwini-app                 1/1     1            1           7m10s
+ashwinik8s1            ashwini-tomapp              1/1     1            1           3m5s
+kube-system            calico-kube-controllers     1/1     1            1           4d3h
+kube-system            coredns                     2/2     2            2           4d4h
+```
+
+### creating svc
+
+```
+[ashu@ip-172-31-91-107 day7]$ kubectl get deploy
+NAME       READY   UP-TO-DATE   AVAILABLE   AGE
+ashu-app   1/1     1            1           9m23s
+[ashu@ip-172-31-91-107 day7]$ 
+[ashu@ip-172-31-91-107 day7]$ kubectl expose deployment ashu-app  --type NodePort --port 8080 --name ashulb4 --dry-run=client -o yaml >svcc.yml
+[ashu@ip-172-31-91-107 day7]$ kubectl create -f svcc.yml 
+service/ashulb4 created
+[ashu@ip-172-31-91-107 day7]$ kubectl  get  svc
+NAME      TYPE       CLUSTER-IP       EXTERNAL-IP   PORT(S)          AGE
+ashulb4   NodePort   10.111.128.201   <none>        8080:32336/TCP   4s
+[ashu@ip-172-31-91-107 day7]$ 
+[ashu@ip-172-31-91-107 day7]$ 
+[ashu@ip-172-31-91-107 day7]$ kubectl get ep
+NAME      ENDPOINTS             AGE
+ashulb4   192.168.104.20:8080   7s
+[ashu@ip-172-31-91-107 day7]$ 
+
+```
+
+
