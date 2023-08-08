@@ -190,6 +190,42 @@ ashu-app-deploy-64bcd577fb-sw4zf   1/1     Running   0          9s
 
 ```
 
+### self healing / recreation 
+
+```
+[ashu@ip-172-31-91-107 day7]$ kubectl  get  pods
+NAME                               READY   STATUS    RESTARTS   AGE
+ashu-app-deploy-64bcd577fb-sw4zf   1/1     Running   0          16m
+[ashu@ip-172-31-91-107 day7]$ kubectl  get  pods -o wide
+NAME                               READY   STATUS    RESTARTS   AGE   IP               NODE    NOMINATED NODE   READINESS GATES
+ashu-app-deploy-64bcd577fb-sw4zf   1/1     Running   0          16m   192.168.104.51   node2   <none>           <none>
+[ashu@ip-172-31-91-107 day7]$ kubectl delete pod ashu-app-deploy-64bcd577fb-sw4zf
+pod "ashu-app-deploy-64bcd577fb-sw4zf" deleted
+[ashu@ip-172-31-91-107 day7]$ kubectl  get  pods -o wide
+NAME                               READY   STATUS    RESTARTS   AGE   IP               NODE    NOMINATED NODE   READINESS GATES
+ashu-app-deploy-64bcd577fb-5rk2w   1/1     Running   0          38s   192.168.104.55   node2   <none>           <none>
+[ashu@ip-172-31-91-107 day7]$ 
+
+```
+
+### scaling pods using updating replicas=3 in manifest file
+
+```
+[ashu@ip-172-31-91-107 day7]$ kubectl apply -f deployment1.yaml 
+Warning: resource deployments/ashu-app-deploy is missing the kubectl.kubernetes.io/last-applied-configuration annotation which is required by kubectl apply. kubectl apply should only be used on resources created declaratively by either kubectl create --save-config or kubectl apply. The missing annotation will be patched automatically.
+deployment.apps/ashu-app-deploy configured
+[ashu@ip-172-31-91-107 day7]$ kubectl  get  deployment 
+NAME              READY   UP-TO-DATE   AVAILABLE   AGE
+ashu-app-deploy   3/3     3            3           20m
+[ashu@ip-172-31-91-107 day7]$ kubectl get pods
+NAME                               READY   STATUS    RESTARTS   AGE
+ashu-app-deploy-64bcd577fb-5rk2w   1/1     Running   0          4m13s
+ashu-app-deploy-64bcd577fb-jcqhl   1/1     Running   0          10s
+ashu-app-deploy-64bcd577fb-vsq8m   1/1     Running   0          10s
+```
+
+
+
 
 
 
