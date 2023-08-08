@@ -263,6 +263,72 @@ lb1    192.168.104.11:80,192.168.104.13:80,192.168.166.165:80 + 1 more...   81m
 [ashu@ip-172-31-91-107 day7]$ 
 ```
 
+### k8s manifest file 
 
+```
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  creationTimestamp: null
+  labels:
+    app: ashu-app-deploy
+  name: ashu-app-deploy # name of deployment 
+spec:
+  replicas: 1 # number of pods we want 
+  selector:
+    matchLabels:
+      app: ashu-app-deploy
+  strategy: {}
+  template: # deployment will be using pod template to create multiple pods
+    metadata:
+      creationTimestamp: null
+      labels:
+        app: ashu-app-deploy
+    spec:
+      containers:
+      - image: docker.io/dockerashu/ashu-customer1:releasev1
+        name: ashu-customer1
+        ports:
+        - containerPort: 80
+        resources: {}
+        env:
+        - name: web
+          value: myapp3 
+status: {}
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  creationTimestamp: null
+  labels:
+    app: ashu-app-deploy
+  name: lb1
+spec:
+  ports:
+  - port: 80
+    protocol: TCP
+    targetPort: 80
+  selector:
+    app: ashu-app-deploy
+  type: LoadBalancer
+status:
+  loadBalancer: {}
+
+```
+
+### sending create request
+
+```
+[ashu@ip-172-31-91-107 day7]$ kubectl create -f  ashu-merge.yaml 
+deployment.apps/ashu-app-deploy created
+service/lb1 created
+[ashu@ip-172-31-91-107 day7]$ kubectl delete -f ashu-merge.yaml 
+deployment.apps "ashu-app-deploy" deleted
+service "lb1" deleted
+[ashu@ip-172-31-91-107 day7]$ 
+
+```
 
 
