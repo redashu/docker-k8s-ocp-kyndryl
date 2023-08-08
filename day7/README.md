@@ -439,5 +439,13 @@ ashulb4   192.168.104.20:8080   7s
 [ashu@ip-172-31-91-107 day7]$ 
 
 ```
+### 
 
+```
+32  kubectl create  deployment  d1  --image=dockerashu/reactapp:version1  
+  633  kubectl config get-contexts 
+  634  kubectl  get  deploy  -n ashu-project 
+  635  kubectl  get  po  -n ashu-project 
+  636  kubectl  describe  pod  d1-c6fc4c97c-dpb79  -n ashu-project 
+```
 
