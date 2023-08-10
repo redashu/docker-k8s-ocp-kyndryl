@@ -161,3 +161,25 @@ yashna-customer1      yashna-customer1-default.apps.dev-cluster.ashutoshh.in    
 [ashu@ip-172-31-91-107 ~]$ 
 ```
 
+### oc commands
+
+```
+708  oc run  ashu-pypod --image=docker.io/dockerashu/ashunew:ocimgv1 --dry-run=client -o yaml 
+  709  kubectl explain pod.spec.containers | grep -i tty
+  710  kubectl explain pod.spec.containers.tty
+  711  oc run  ashu-pypod --image=docker.io/dockerashu/ashunew:ocimgv1 --dry-run=client -o yaml 
+  712  oc get  pods
+  713  oc project ashwini-new 
+  714  oc get  pods
+  715  oc logs  -f ashu-pypod 
+  716  hsitor
+  717  history 
+[ashu@ip-172-31-91-107 ~]$ oc get pods
+NAME                      READY   STATUS    RESTARTS   AGE
+ashu-pypod                1/1     Running   0          88s
+ashwini-59b85b6b5-t4zwv   1/1     Running   0          13m
+[ashu@ip-172-31-91-107 ~]$ oc delete pod  ashu-pypod
+pod "ashu-pypod" deleted
+```
+
+
