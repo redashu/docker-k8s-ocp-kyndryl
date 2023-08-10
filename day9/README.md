@@ -88,3 +88,43 @@ openshift-cloud-network-config-controller
 openshift-cluster-csi-drivers
 ```
 
+## How to get webUI access 
+
+### checking project which has webportal deployed
+
+```
+[ashu@ip-172-31-91-107 ~]$ oc projects   |  grep  console 
+openshift-console
+openshift-console-operator
+openshift-console-user-settings
+[ashu@ip-172-31-91-107 ~]$ 
+[ashu@ip-172-31-91-107 ~]$ oc  get  pods
+No resources found in default namespace.
+
+[ashu@ip-172-31-91-107 ~]$ 
+[ashu@ip-172-31-91-107 ~]$ oc  get  pods -n openshift-console
+NAME                         READY   STATUS    RESTARTS        AGE
+console-85d689885-9rm46      1/1     Running   1               26h
+console-85d689885-h86mt      1/1     Running   1               26h
+downloads-55ff47758f-ggl9p   1/1     Running   2 (3h22m ago)   26h
+downloads-55ff47758f-rnb4h   1/1     Running   2 (3h22m ago)   26h
+
+[ashu@ip-172-31-91-107 ~]$ oc  get  deploy  -n openshift-console
+NAME        READY   UP-TO-DATE   AVAILABLE   AGE
+console     2/2     2            2           26h
+downloads   2/2     2            2           26h
+
+====>>
+[ashu@ip-172-31-91-107 ~]$ oc  get  svc   -n openshift-console
+NAME        TYPE        CLUSTER-IP      EXTERNAL-IP   PORT(S)   AGE
+console     ClusterIP   172.30.91.159   <none>        443/TCP   26h
+downloads   ClusterIP   172.30.97.159   <none>        80/TCP
+
+======>>
+[ashu@ip-172-31-91-107 ~]$ oc  get  routes   -n openshift-console
+NAME        HOST/PORT                                                   PATH   SERVICES    PORT    TERMINATION          WILDCARD
+console     console-openshift-console.apps.dev-cluster.ashutoshh.in            console     https   reencrypt/Redirect   None
+downloads   downloads-openshift-console.apps.dev-cluster.ashutoshh.in          downloads   http    edge/Redirect        None
+```
+
+
