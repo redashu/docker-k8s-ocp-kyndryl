@@ -127,4 +127,37 @@ console     console-openshift-console.apps.dev-cluster.ashutoshh.in            c
 downloads   downloads-openshift-console.apps.dev-cluster.ashutoshh.in          downloads   http    edge/Redirect        None
 ```
 
+### checking app status from OC -- got deployed by Webportal
+
+```
+[ashu@ip-172-31-91-107 ~]$ oc get  deploy
+NAME                  READY   UP-TO-DATE   AVAILABLE   AGE
+ashu-customer1        1/1     1            1           6m9s
+ashwini-customer1     1/1     1            1           6m3s
+nagashree-customer1   1/1     1            1           5m5s
+nidhi-customer1       1/1     1            1           4m57s
+rakshitha-customer1   1/1     1            1           5m53s
+yashna-customer1      1/1     1            1           5m2s
+
+[ashu@ip-172-31-91-107 ~]$ oc get  svc
+NAME                  TYPE           CLUSTER-IP       EXTERNAL-IP                            PORT(S)   AGE
+ashu-customer1        ClusterIP      172.30.155.189   <none>                                 80/TCP    6m11s
+ashwini-customer1     ClusterIP      172.30.9.144     <none>                                 80/TCP    6m6s
+kubernetes            ClusterIP      172.30.0.1       <none>                                 443/TCP   11m
+nagashree-customer1   ClusterIP      172.30.242.97    <none>                                 80/TCP    5m8s
+nidhi-customer1       ClusterIP      172.30.169.164   <none>                                 80/TCP    5m
+openshift             ExternalName   <none>           kubernetes.default.svc.cluster.local   <none>    10m
+rakshitha-customer1   ClusterIP      172.30.137.252   <none>                                 80/TCP    5m56s
+yashna-customer1      ClusterIP      172.30.84.56     <none>                                 80/TCP    5m5s
+
+[ashu@ip-172-31-91-107 ~]$ oc get  routes
+NAME                  HOST/PORT                                                   PATH   SERVICES              PORT     TERMINATION     WILDCARD
+ashu-customer1        ashu-customer1-default.apps.dev-cluster.ashutoshh.in               ashu-customer1        80-tcp   edge/Redirect   None
+ashwini-customer1     ashwini-customer1-default.apps.dev-cluster.ashutoshh.in            ashwini-customer1     80-tcp   edge/Redirect   None
+nagashree-customer1   nagashree-customer1-default.apps.dev-cluster.ashutoshh.in          nagashree-customer1   80-tcp   edge/Redirect   None
+nidhi-customer1       nidhi-customer1-default.apps.dev-cluster.ashutoshh.in              nidhi-customer1       80-tcp   edge/Redirect   None
+rakshitha-customer1   rakshitha-customer1-default.apps.dev-cluster.ashutoshh.in          rakshitha-customer1   80-tcp   edge/Redirect   None
+yashna-customer1      yashna-customer1-default.apps.dev-cluster.ashutoshh.in             yashna-customer1      80-tcp   edge/Redirect   None
+[ashu@ip-172-31-91-107 ~]$ 
+```
 
