@@ -12,3 +12,11 @@
 
 <img src="appc.png">
 
+## Introducing Openshift
+
+<img src="oc.png">
+
+### k8s vs OCP -- all you need to know as freshers
+
+<img src="ocp.png">
+
