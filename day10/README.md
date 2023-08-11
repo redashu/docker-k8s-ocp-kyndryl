@@ -161,7 +161,23 @@ ashu-access        ashu-access-default.apps.dev-cluster.ashutoshh.in            
 nagashree-access   nagashree-access-default.apps.dev-cluster.ashutoshh.in          nagashree-ui   80                   None
 rakshitha-access   rakshitha-access-default.apps.dev-cluster.ashutoshh.in          rak
 ```
+### getting openshift URL access
 
+```
+[ashu@ip-172-31-91-107 openshift-demos]$ oc  projects  | grep -i console 
+    openshift-console
+    openshift-console-operator
+    openshift-console-user-settings
+[ashu@ip-172-31-91-107 openshift-demos]$ 
+[ashu@ip-172-31-91-107 openshift-demos]$
+
+[ashu@ip-172-31-91-107 openshift-demos]$ oc get routes  -n openshift-console 
+NAME        HOST/PORT                                                   PATH   SERVICES    PORT    TERMINATION          WILDCARD
+console     console-openshift-console.apps.dev-cluster.ashutoshh.in            console     https   reencrypt/Redirect   None
+downloads   downloads-openshift-console.apps.dev-cluster.ashutoshh.in          downloads   http    edge/Redirect        None
+[ashu@ip-172-31-91-107 openshift-demos]$ 
+
+```
 
 
 
