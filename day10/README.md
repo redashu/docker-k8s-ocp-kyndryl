@@ -179,6 +179,109 @@ downloads   downloads-openshift-console.apps.dev-cluster.ashutoshh.in          d
 
 ```
 
+## creating new project / namespace
+
+### 
+
+```
+ashu@ip-172-31-91-107 openshift-demos]$ oc whoami
+system:admin
+[ashu@ip-172-31-91-107 openshift-demos]$ oc  new-project  ashu-day10
+Now using project "ashu-day10" on server "https://api.dev-cluster.ashutoshh.in:6443".
+
+You can add applications to this project with the 'new-app' command. For example, try:
+
+    oc new-app rails-postgresql-example
+
+to build a new example application in Ruby. Or use kubectl to deploy a simple Kubernetes application:
+
+    kubectl create deployment hello-node --image=registry.k8s.io/e2e-test-images/agnhost:2.43 -- /agnhost serve-hostname
+
+
+=======>
+[ashu@ip-172-31-91-107 openshift-demos]$ oc project
+Using project "ashu-day10" on server "https://api.dev-cluster.ashutoshh.in:6443".
+[ashu@ip-172-31-91-107 openshift-demos]$ 
+
+
+```
+
+### creating deployment in new project 
+
+```
+[ashu@ip-172-31-91-107 openshift-demos]$ ls
+deploy.yaml  pod1.yaml  route1.yaml  svc.yaml
+[ashu@ip-172-31-91-107 openshift-demos]$ oc create -f deploy.yaml 
+deployment.apps/ashu-dep created
+[ashu@ip-172-31-91-107 openshift-demos]$ oc get  deploy 
+NAME       READY   UP-TO-DATE   AVAILABLE   AGE
+ashu-dep   0/1     1            0           7s
+[ashu@ip-172-31-91-107 openshift-demos]$ oc get  pods
+NAME                       READY   STATUS             RESTARTS     AGE
+ashu-dep-dc4c58857-tvbqp   0/1     CrashLoopBackOff   1 (7s ago)   12s
+[ashu@ip-172-31-91-107 openshift-demos]$ 
+
+```
+
+### checking logs 
+
+```
+ashu@ip-172-31-91-107 openshift-demos]$ oc get  pods
+NAME                       READY   STATUS             RESTARTS     AGE
+ashu-dep-dc4c58857-tvbqp   0/1     CrashLoopBackOff   1 (7s ago)   12s
+[ashu@ip-172-31-91-107 openshift-demos]$ oc  logs  ashu-dep-dc4c58857-tvbqp 
+cp: cannot create regular file '/var/www/html/LICENSE.txt': Permission denied
+cp: cannot create regular file '/var/www/html/README.txt': Permission denied
+cp: cannot create directory '/var/www/html/assets': Permission denied
+cp: cannot create regular file '/var/www/html/elements.html': Permission denied
+cp: cannot create regular file '/var/www/html/generic.html': Permission denied
+cp: cannot create regular file '/var/www/html/html5up-phantom.zip': Permission denied
+cp: cannot create directory '/var/www/html/images': Permission denied
+cp: cannot create regular file '/var/www/html/index.html': Permission denied
+AH00558: httpd: Could not reliably determine the server's fully qualified domain name, using 10.128.2.32. Set the 'ServerName' directive globally to suppress this message
+(13)Permission denied: AH00058: Error retrieving pid file run/httpd.pid
+AH00059: Remove it before continuing if it is corrupted.
+[ashu@ip-172-31-91-107 openshift-demos]$ 
+```
+
+### reason for above error
+
+<img src="reason.png">
+
+### more options there
+
+<img src="op.png">
+
+### to configure OC project for adoption any pod as root uid
+
+```
+[ashu@ip-172-31-91-107 openshift-demos]$ oc project
+Using project "ashu-day10" on server "https://api.dev-cluster.ashutoshh.in:6443".
+[ashu@ip-172-31-91-107 openshift-demos]$ 
+[ashu@ip-172-31-91-107 openshift-demos]$ 
+[ashu@ip-172-31-91-107 openshift-demos]$ oc adm policy add-scc-to-user anyuid -z default
+clusterrole.rbac.authorization.k8s.io/system:openshift:scc:anyuid added: "default"
+[ashu@ip-172-31-91-107 openshift-demos]$ 
+
+```
+
+### retest it 
+
+```
+[ashu@ip-172-31-91-107 openshift-demos]$ ls
+deploy.yaml  pod1.yaml  route1.yaml  svc.yaml
+[ashu@ip-172-31-91-107 openshift-demos]$ oc replace -f deploy.yaml --force
+deployment.apps "ashu-dep" deleted
+deployment.apps/ashu-dep replaced
+
+[ashu@ip-172-31-91-107 openshift-demos]$ oc get  deploy
+NAME       READY   UP-TO-DATE   AVAILABLE   AGE
+ashu-dep   1/1     1            1           4s
+[ashu@ip-172-31-91-107 openshift-demos]$ oc get  pods
+NAME                       READY   STATUS    RESTARTS   AGE
+ashu-dep-dc4c58857-b57cb   1/1     Running   0          7s
+[ashu@ip-172-31-91-107 openshift-demos]$ 
+```
 
 
 
