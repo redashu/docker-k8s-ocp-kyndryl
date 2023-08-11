@@ -128,5 +128,41 @@ ashu-webapp      1/1     Running             0          13s
 
 <img src="ingr.png">
 
+### creating service by exposing pods
+
+```
+[ashu@ip-172-31-91-107 openshift-demos]$ oc  get  po
+NAME               READY   STATUS    RESTARTS   AGE
+ashu-webapp        1/1     Running   0          12m
+ashwini-webapp     1/1     Running   0          12m
+nagashree-webapp   1/1     Running   0          12m
+nidhi-webapp       1/1     Running   0          11m
+rakshitha-webapp   1/1     Running   0          12m
+yashna-webapp      1/1     Running   0          11m
+[ashu@ip-172-31-91-107 openshift-demos]$ oc  expose pod ashu-webapp --type ClusterIP --port 80 --name ashu-ui --dry-run=client -o yaml  >svc.yaml 
+[ashu@ip-172-31-91-107 openshift-demos]$ ls
+pod1.yaml  svc.yaml
+[ashu@ip-172-31-91-107 openshift-demos]$ oc apply -f svc.yaml 
+service/ashu-ui created
+[ashu@ip-172-31-91-107 openshift-demos]$ oc get  svc
+NAME         TYPE           CLUSTER-IP     EXTERNAL-IP                            PORT(S)   AGE
+ashu-ui      ClusterIP      172.30.23.70   <none>                                 80/TCP    3s
+```
+
+### creating routes by exposing service
+
+```
+[ashu@ip-172-31-91-107 openshift-demos]$ oc  expose service ashu-ui --name  ashu-access --dry-run=client -o yaml >route1.yaml 
+[ashu@ip-172-31-91-107 openshift-demos]$ oc apply -f route1.yaml 
+route.route.openshift.io/ashu-access created
+[ashu@ip-172-31-91-107 openshift-demos]$ oc get routes
+NAME               HOST/PORT                                                PATH   SERVICES       PORT   TERMINATION   WILDCARD
+ashu-access        ashu-access-default.apps.dev-cluster.ashutoshh.in               ashu-ui        80                   None
+nagashree-access   nagashree-access-default.apps.dev-cluster.ashutoshh.in          nagashree-ui   80                   None
+rakshitha-access   rakshitha-access-default.apps.dev-cluster.ashutoshh.in          rak
+```
+
+
+
 
 
