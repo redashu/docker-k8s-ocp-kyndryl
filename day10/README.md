@@ -81,4 +81,43 @@ status: {}
 [ashu@ip-172-31-91-107 openshift-demos]$ 
 ```
 
+### updating manifest file to consume env 
+
+```
+apiVersion: v1
+kind: Pod
+metadata:
+  creationTimestamp: null
+  labels:
+    run: ashu-webapp
+  name: ashu-webapp
+spec:
+  containers:
+  - image: dockerashu/ashu-customer1:releasev1
+    name: ashu-webapp
+    ports:
+    - containerPort: 80
+    resources: {}
+    env: # calling env of docker image 
+    - name: web # name of env variable 
+      value: myapp3 # value of env var
+  dnsPolicy: ClusterFirst
+  restartPolicy: Always
+status: {}
+
+```
+
+### creating pod 
+
+```
+[ashu@ip-172-31-91-107 openshift-demos]$ oc  apply -f pod1.yaml 
+Warning: would violate PodSecurity "restricted:latest": allowPrivilegeEscalation != false (container "ashu-webapp" must set securityContext.allowPrivilegeEscalation=false), unrestricted capabilities (container "ashu-webapp" must set securityContext.capabilities.drop=["ALL"]), runAsNonRoot != true (pod or container "ashu-webapp" must set securityContext.runAsNonRoot=true), seccompProfile (pod or container "ashu-webapp" must set securityContext.seccompProfile.type to "RuntimeDefault" or "Localhost")
+pod/ashu-webapp created
+[ashu@ip-172-31-91-107 openshift-demos]$ 
+[ashu@ip-172-31-91-107 openshift-demos]$ oc  get  pods
+NAME             READY   STATUS              RESTARTS   AGE
+ashu-pod         1/1     Running             0          63m
+ashu-webapp      1/1     Running             0          13s
+```
+
 
