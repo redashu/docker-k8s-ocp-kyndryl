@@ -120,4 +120,13 @@ ashu-pod         1/1     Running             0          63m
 ashu-webapp      1/1     Running             0          13s
 ```
 
+### Understanding it 
+
+<img src="routes.png">
+
+### ingress vs routes 
+
+<img src="ingr.png">
+
+
 
