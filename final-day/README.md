@@ -29,4 +29,71 @@ replicaset.apps "ashu-dep-dc4c58857" deleted
 
 <img src="netflow.png">
 
+### How to get openshift dashboard access
 
+### checking pods in project 
+
+```
+[ashu@ip-172-31-91-107 ~]$ oc projects  | grep console 
+    openshift-console
+    openshift-console-operator
+    openshift-console-user-settings
+
+[ashu@ip-172-31-91-107 ~]$ oc get  pods -n  openshift-console
+NAME                         READY   STATUS    RESTARTS      AGE
+console-85d689885-9rm46      1/1     Running   4 (23m ago)   5d1h
+console-85d689885-h86mt      1/1     Running   3             5d1h
+downloads-55ff47758f-ggl9p   1/1     Running   6 (25m ago)   5d1h
+downloads-55ff47758f-rnb4h   1/1     Running   6 (25m ago)   5d1h
+
+
+```
+
+### checking service and routes 
+
+```
+[ashu@ip-172-31-91-107 ~]$ oc get svc -n openshift-console
+NAME        TYPE        CLUSTER-IP      EXTERNAL-IP   PORT(S)   AGE
+console     ClusterIP   172.30.91.159   <none>        443/TCP   5d1h
+downloads   ClusterIP   172.30.97.159   <none>        80/TCP    5d1h
+[ashu@ip-172-31-91-107 ~]$
+
+[ashu@ip-172-31-91-107 ~]$ 
+[ashu@ip-172-31-91-107 ~]$ oc get routes  -n  openshift-console
+NAME        HOST/PORT                                                   PATH   SERVICES    PORT    TERMINATION          WILDCARD
+console     console-openshift-console.apps.dev-cluster.ashutoshh.in            console     https   reencrypt/Redirect   None
+downloads   downloads-openshift-console.apps.dev-cluster.ashutoshh.in          downloads   http    edge/Redirect        None
+[ashu@ip-172-31-91-107 ~]$ 
+
+
+```
+
+### Deploy all the manifest (yaml) -- using directory itself 
+
+```
+ashu@ip-172-31-91-107 ~]$ ls
+backup  openshift-demos
+[ashu@ip-172-31-91-107 ~]$ oc  apply -f  openshift-demos/
+deployment.apps/ashu-dep created
+pod/ashu-webapp created
+route.route.openshift.io/ashu-access created
+service/ashu-ui created
+
+[ashu@ip-172-31-91-107 ~]$ oc get  deploy
+NAME       READY   UP-TO-DATE   AVAILABLE   AGE
+ashu-dep   1/1     1            1           6s
+
+[ashu@ip-172-31-91-107 ~]$ oc get  pods
+NAME                       READY   STATUS    RESTARTS   AGE
+ashu-dep-dc4c58857-w86cs   1/1     Running   0          10s
+ashu-webapp                1/1     Running   0          10s
+
+[ashu@ip-172-31-91-107 ~]$ oc get  svc
+NAME      TYPE        CLUSTER-IP      EXTERNAL-IP   PORT(S)   AGE
+ashu-ui   ClusterIP   172.30.21.183   <none>        80/TCP    16s
+
+[ashu@ip-172-31-91-107 ~]$ oc get  routes
+NAME          HOST/PORT                                              PATH   SERVICES   PORT   TERMINATION   WILDCARD
+ashu-access   ashu-access-ashu-day10.apps.dev-cluster.ashutoshh.in          ashu-ui    80                   None
+[ashu@ip-172-31-91-107 ~]$ 
+```
