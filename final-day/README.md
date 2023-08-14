@@ -211,3 +211,26 @@ ashu-dep   1/1     1            1           17s
 [ashu@ip-172-31-91-107 final-day-apps]$ 
 ```
 
+### creating final app
+
+```
+[ashu@ip-172-31-91-107 final-day-apps]$ oc  get  deploy
+NAME       READY   UP-TO-DATE   AVAILABLE   AGE
+ashu-dep   1/1     1            1           12m
+[ashu@ip-172-31-91-107 final-day-apps]$ oc  expose deployment  ashu-dep  --type ClusterIP --port 80 --name ashulb1 --dry-run=client -o yaml >svc.yaml 
+[ashu@ip-172-31-91-107 final-day-apps]$ oc apply -f svc.yaml 
+service/ashulb1 created
+[ashu@ip-172-31-91-107 final-day-apps]$ oc get svc
+NAME      TYPE        CLUSTER-IP      EXTERNAL-IP   PORT(S)   AGE
+ashulb1   ClusterIP   172.30.82.241   <none>        80/TCP    5s
+[ashu@ip-172-31-91-107 final-day-apps]$ oc expose service ashulb1 --name ashu-app1 --port 80 --dry-run=client -o yaml >route1.yaml 
+[ashu@ip-172-31-91-107 final-day-apps]$ ls
+deploy1.yaml  route1.yaml  secret1.yaml  svc.yaml
+[ashu@ip-172-31-91-107 final-day-apps]$ oc apply -f route1.yaml 
+route.route.openshift.io/ashu-app1 created
+[ashu@ip-172-31-91-107 final-day-apps]$ oc get  routes
+NAME        HOST/PORT                                            PATH   SERVICES   PORT   TERMINATION   WILDCARD
+ashu-app1   ashu-app1-ashu-day10.apps.dev-cluster.ashutoshh.in          ashulb1    80                   None
+[ashu@ip-172-31-91-107 final-day-apps]$ 
+
+```
