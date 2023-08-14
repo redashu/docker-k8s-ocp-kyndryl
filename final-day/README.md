@@ -234,3 +234,9 @@ ashu-app1   ashu-app1-ashu-day10.apps.dev-cluster.ashutoshh.in          ashulb1 
 [ashu@ip-172-31-91-107 final-day-apps]$ 
 
 ```
+
+### Introduction to deployment config in Openshift 
+
+<img src="dc.png">
+
+
