@@ -97,3 +97,50 @@ NAME          HOST/PORT                                              PATH   SERV
 ashu-access   ashu-access-ashu-day10.apps.dev-cluster.ashutoshh.in          ashu-ui    80                   None
 [ashu@ip-172-31-91-107 ~]$ 
 ```
+
+### Deploying private docker image can lead to below issue 
+
+```
+ oc apply -f deploy1.yaml
+
+ashu@ip-172-31-91-107 final-day-apps]$ oc get  deploy 
+NAME       READY   UP-TO-DATE   AVAILABLE   AGE
+ashu-dep   0/1     1            0           75s
+[ashu@ip-172-31-91-107 final-day-apps]$ 
+[ashu@ip-172-31-91-107 final-day-apps]$ 
+[ashu@ip-172-31-91-107 final-day-apps]$ oc get pods
+NAME                        READY   STATUS             RESTARTS   AGE
+ashu-dep-7dfc46668c-tgfc5   0/1     ImagePullBackOff   0          79s
+[ashu@ip-172-31-91-107 final-day-apps]$ 
+```
+
+### Introduction to secret k8s & oc api-resources
+
+<img src="oci.png">
+
+### creating secret to store azure registry credentials
+
+```
+[ashu@ip-172-31-91-107 final-day-apps]$ oc create secret 
+Create a secret using specified subcommand.
+
+Available Commands:
+  docker-registry   Create a secret for use with a Docker registry
+  generic           Create a secret from a local file, directory, or literal value
+  tls               Create a TLS secret
+
+Usage:
+  oc create secret [flags] [options]
+
+Use "oc <command> --help" for more information about a given command.
+Use "oc options" for a list of global command-line options (applies to all commands).
+[ashu@ip-172-31-91-107 final-day-apps]$ oc create secret  docker-registry ashu-cred --docker-server kyndryl1.azurecr.io  --docker-username kyndryl1  --docker-password="W/Ij"  --dry-run=client -o yaml  >secret1.yaml 
+[ashu@ip-172-31-91-107 final-day-apps]$ ls
+deploy1.yaml  secret1.yaml
+[ashu@ip-172-31-91-107 final-day-apps]$ oc apply -f secret1.yaml 
+secret/ashu-cred created
+[ashu@ip-172-31-91-107 final-day-apps]$ oc get secret
+NAME                       TYPE                                  DATA   AGE
+ashu-cred                  kubernetes.io/dockerconfigjson        1      3s
+```
+
