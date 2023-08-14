@@ -144,3 +144,70 @@ NAME                       TYPE                                  DATA   AGE
 ashu-cred                  kubernetes.io/dockerconfigjson        1      3s
 ```
 
+### updating deployment manifest to use image pull secrets
+
+```
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  creationTimestamp: null
+  labels:
+    app: ashu-dep
+  name: ashu-dep
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: ashu-dep
+  strategy: {}
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        app: ashu-dep
+    spec:
+      imagePullSecrets: # for calling secret while pulling image
+      - name: ashu-cred 
+      containers:
+      - image: kyndryl1.azurecr.io/ashu-customer:v1
+        name: ashu-customer
+        ports:
+        - containerPort: 80
+        env:
+        - name: web
+          value: myapp3 
+        resources: {}
+status: {}
+
+```
+
+### redeploy it
+
+```
+ashu@ip-172-31-91-107 final-day-apps]$ ls
+deploy1.yaml  secret1.yaml
+[ashu@ip-172-31-91-107 final-day-apps]$ oc replace -f deploy1.yaml --force
+deployment.apps "ashu-dep" deleted
+deployment.apps/ashu-dep replaced
+
+[ashu@ip-172-31-91-107 final-day-apps]$ oc get deploy
+NAME       READY   UP-TO-DATE   AVAILABLE   AGE
+ashu-dep   0/1     1            0           4s
+[ashu@ip-172-31-91-107 final-day-apps]$ oc get deploy
+
+NAME       READY   UP-TO-DATE   AVAILABLE   AGE
+ashu-dep   0/1     1            0           6s
+[ashu@ip-172-31-91-107 final-day-apps]$ oc get pods
+
+NAME                        READY   STATUS              RESTARTS   AGE
+ashu-dep-588795bb97-ns2c5   0/1     ContainerCreating   0          10s
+
+[ashu@ip-172-31-91-107 final-day-apps]$ oc get pods
+NAME                        READY   STATUS    RESTARTS   AGE
+ashu-dep-588795bb97-ns2c5   1/1     Running   0          14s
+[ashu@ip-172-31-91-107 final-day-apps]$ oc get deploy
+NAME       READY   UP-TO-DATE   AVAILABLE   AGE
+ashu-dep   1/1     1            1           17s
+[ashu@ip-172-31-91-107 final-day-apps]$ 
+```
+
