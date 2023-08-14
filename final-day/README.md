@@ -24,3 +24,9 @@ deployment.apps "ashu-dep" deleted
 replicaset.apps "ashu-dep-dc4c58857" deleted
 
 ```
+
+### checking openshift networking flow 
+
+<img src="netflow.png">
+
+
