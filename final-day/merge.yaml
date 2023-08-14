@@ -1,0 +1,77 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  creationTimestamp: null
+  labels:
+    app: ashu-dep
+  name: ashu-dep
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: ashu-dep
+  strategy: {}
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        app: ashu-dep
+    spec:
+      imagePullSecrets: # for calling secret while pulling image
+      - name: ashu-cred 
+      containers:
+      - image: kyndryl1.azurecr.io/ashu-customer:v1
+        name: ashu-customer
+        ports:
+        - containerPort: 80
+        env:
+        - name: web
+          value: myapp3 
+        resources: {}
+status: {}
+
+---
+apiVersion: route.openshift.io/v1
+kind: Route
+metadata:
+  creationTimestamp: null
+  labels:
+    app: ashu-dep
+  name: ashu-app1
+spec:
+  port:
+    targetPort: 80
+  to:
+    kind: ""
+    name: ashulb1
+    weight: null
+status: {}
+
+---
+apiVersion: v1
+data:
+  .dockerconfigjson: eyJhdXRocyI6eyJreW5kcnlsMS5henVyZWNyLmlvIjp7InVzZXJuYW1lIjoia3luZHJ5bDEiLCJwYXNzd29yZCI6IlptQWRSUkxodWhjQU5aTnZkNnNEbVk3Zkl3RUk0cDVzTXd4TFNXLzZqKytBQ1JCVFcvSWoiLCJhdXRoIjoiYTNsdVpISjViREU2V20xQlpGSlNUR2gxYUdOQlRscE9kbVEyYzBSdFdUZG1TWGRGU1RSd05YTk5kM2hNVTFjdk5tb3JLMEZEVWtKVVZ5OUphZz09In19fQ==
+kind: Secret
+metadata:
+  creationTimestamp: null
+  name: ashu-cred
+type: kubernetes.io/dockerconfigjson
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  creationTimestamp: null
+  labels:
+    app: ashu-dep
+  name: ashulb1
+spec:
+  ports:
+  - port: 80
+    protocol: TCP
+    targetPort: 80
+  selector:
+    app: ashu-dep
+  type: ClusterIP
+status:
+  loadBalancer: {}
