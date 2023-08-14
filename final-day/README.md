@@ -244,5 +244,71 @@ ashu-app1   ashu-app1-ashu-day10.apps.dev-cluster.ashutoshh.in          ashulb1 
 <img src="st.png">
 
 
+### Creaitng mysql database deployment in ocp 
 
+```
+oc  create deployment  ashu-db --image=mysql:8.0 --port 3306  --dry-run=client -o yaml     >mysqld.yaml 
+```
 
+### updated manifest
+
+```
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  creationTimestamp: null
+  labels:
+    app: ashu-db
+  name: ashu-db
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: ashu-db
+  strategy: {}
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        app: ashu-db
+    spec:
+      containers:
+      - image: docker.io/library/mysql:8.0
+        name: mysql
+        ports:
+        - containerPort: 3306
+        resources: {}
+        env: 
+        - name: MYSQL_ROOT_PASSWORD
+          value: HelloDb@123
+status: {}
+
+```
+
+### using secret to store db password
+
+```
+[ashu@ip-172-31-91-107 final-day-apps]$ oc create secret 
+Create a secret using specified subcommand.
+
+Available Commands:
+  docker-registry   Create a secret for use with a Docker registry
+  generic           Create a secret from a local file, directory, or literal value
+  tls               Create a TLS secret
+
+Usage:
+  oc create secret [flags] [options]
+
+Use "oc <command> --help" for more information about a given command.
+Use "oc options" for a list of global command-line options (applies to all commands).
+
+[ashu@ip-172-31-91-107 final-day-apps]$ oc create secret  generic  ashu-db-cred  --from-literal ashukey1="HelloDb@123"  --dry-run=client -o yaml >dbsecret.yaml
+
+[ashu@ip-172-31-91-107 final-day-apps]$ oc apply -f dbsecret.yaml 
+secret/ashu-db-cred created
+[ashu@ip-172-31-91-107 final-day-apps]$ oc get  secrets
+NAME                                   TYPE                                  DATA   AGE
+ashu-db-cred                           Opaque                                1      3s
+builder-dockercfg-v6cml                kubernetes.io/dockercfg               1      3d2h
+builder-token-mbddm                    kubernetes.io/service-account-token   4      3d2h
+```
