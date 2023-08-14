@@ -312,3 +312,104 @@ ashu-db-cred                           Opaque                                1  
 builder-dockercfg-v6cml                kubernetes.io/dockercfg               1      3d2h
 builder-token-mbddm                    kubernetes.io/service-account-token   4      3d2h
 ```
+
+### updating secret usage in deployment manifest
+
+```
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  creationTimestamp: null
+  labels:
+    app: ashu-db
+  name: ashu-db
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: ashu-db
+  strategy: {}
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        app: ashu-db
+    spec:
+      containers:
+      - image: docker.io/library/mysql:8.0
+        name: mysql
+        ports:
+        - containerPort: 3306
+        resources: {}
+        env: 
+        - name: MYSQL_ROOT_PASSWORD
+          valueFrom: # to call the data
+            secretKeyRef: # from secret 
+              name: ashu-db-cred # name of secret
+              key: ashukey1 # key of the secret 
+status: {}
+
+```
+
+### updating local storage to pod 
+
+```
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  creationTimestamp: null
+  labels:
+    app: ashu-db
+  name: ashu-db
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: ashu-db
+  strategy: {}
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        app: ashu-db
+    spec:
+      volumes: # to create volumes inside deployment itself 
+      - name: ashudb-vol1 
+        emptyDir: {}
+      containers:
+      - image: docker.io/library/mysql:8.0
+        name: mysql
+        ports:
+        - containerPort: 3306
+        resources: {}
+        env: 
+        - name: MYSQL_ROOT_PASSWORD
+          valueFrom: # to call the data
+            secretKeyRef: # from secret 
+              name: ashu-db-cred # name of secret
+              key: ashukey1 # key of the secret 
+        volumeMounts:
+        - name: ashudb-vol1
+          mountPath: /var/lib/mysql/
+status: {}
+
+
+```
+
+=======> testing it 
+
+```
+[ashu@ip-172-31-91-107 final-day-apps]$ oc replace -f mysqld.yaml --force 
+deployment.apps "ashu-db" deleted
+deployment.apps/ashu-db replaced
+[ashu@ip-172-31-91-107 final-day-apps]$ oc get deploy
+NAME      READY   UP-TO-DATE   AVAILABLE   AGE
+ashu-db   0/1     1            0           5s
+[ashu@ip-172-31-91-107 final-day-apps]$ oc get pods
+NAME                       READY   STATUS              RESTARTS   AGE
+ashu-db-5f84f966dc-ng5dz   0/1     ContainerCreating   0          7s
+[ashu@ip-172-31-91-107 final-day-apps]$ oc get pods
+NAME                       READY   STATUS    RESTARTS   AGE
+ashu-db-5f84f966dc-ng5dz   1/1     Running   0          50s
+[ashu@ip-172-31-91-107 final-day-apps]$ 
+```
